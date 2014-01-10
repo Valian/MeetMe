@@ -8,6 +8,7 @@
     <!-- main menu -->
     <string name="title_activity_main_menu">Main Menu</string>
     <string name="want_to_meet">I want to meet!</string>
+    <string name="action_bar_map">Map</string>
 
     <!-- status change -->
 
@@ -21,5 +22,8 @@
     <string name="who_wants_to_meet">Who wants to meet?</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_friend_list">FriendListActivity</string>
+    <string name="action_bar_friends">Friends</string>    
+    <string name="title_activity_status_change">Change status</string>    
+    
 
 </resources>

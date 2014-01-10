@@ -12,16 +12,15 @@
 	    <Button
 	    android:id="@+id/statusChangeButton"
 	    android:layout_gravity="center_horizontal"
-	    style="@style/BigButton"
-	    android:onClick="statusChangeButtonClicked" />
+	    android:text="@string/want_to_meet"
+	    style="@style/BigButton"  />
 	     
 	    <Button
-	    android:layout_gravity="center_horizontal"
-	    android:layout_marginTop="50dp"
-	    android:id="@+id/personListButton"
-	    style="@style/BigButton"
-	    android:text="@string/who_wants_to_meet"
-	    android:onClick="friendListButtonClicked" 
+	       	android:id="@+id/friendListButton"
+	    	android:text="@string/who_wants_to_meet"
+		    android:layout_gravity="center_horizontal"
+		    android:layout_marginTop="50dp"	    
+	    	style="@style/BigButton"
 	    />
 	    
 	    <!-- tu będą inne rzeczy -->
