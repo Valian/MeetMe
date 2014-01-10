@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- application -->
+    <string name="app_name">MeetMe</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- main menu -->
+    <string name="title_activity_main_menu">Main Menu</string>
+    <string name="want_to_meet">I want to meet!</string>
+
+    <!-- status change -->
+
+    <string name="want_to_meet_comment">What do you want to do?</string>
+    <string name="comment">comment</string>
+    <string name="when">When?</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="who_wants_to_meet">Who wants to meet?</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_friend_list">FriendListActivity</string>
+
+</resources>

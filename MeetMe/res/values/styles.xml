@@ -19,15 +19,21 @@
 		 
    </style>
     
+   
+   <style name="BodyContainer">
+        <item name="android:layout_width">match_parent</item>
+	    <item name="android:layout_height">match_parent</item>
+	    <item name="android:background">@color/purple</item>
+   </style>
+   
+   <style name="BodyLinearLayout" parent="BodyContainer">
+	    <item name="android:paddingBottom">@dimen/activity_vertical_margin</item> 
+	    <item name="android:orientation">vertical</item>
+   </style>
+   
    <style name="BasicViewStyle">
-       <item name="android:layout_marginTop">@dimen/default_view_margin</item>
-       <item name="android:layout_marginLeft">@dimen/default_view_margin</item>
-       <item name="android:layout_marginBottom">@dimen/default_view_margin</item>
-       <item name="android:layout_marginRight">@dimen/default_view_margin</item>
-       <item name="android:paddingTop">@dimen/default_view_padding</item>
-       <item name="android:paddingBottom">@dimen/default_view_padding</item>
-       <item name="android:paddingLeft">@dimen/default_view_padding</item>
-       <item name="android:paddingRight">@dimen/default_view_padding</item>
+       <item name="android:layout_margin">@dimen/default_view_margin</item>
+       <item name="android:padding">@dimen/default_view_padding</item>
    </style>
    
    <style name="HeaderStrip" parent="@style/BasicViewStyle">
@@ -51,10 +57,25 @@
        <item name="android:layout_marginRight">@dimen/linear_layout_margin</item>
    </style>
    
+   <style name="InlineFormTextView">
+       	<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textSize">@dimen/main_menu_text</item>
+		<item name="android:layout_gravity">center</item>
+   </style>
+   
+   <style name="InlineButton">
+        <item name="android:layout_marginLeft">10dp</item>
+       	<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textSize">@dimen/main_menu_text</item>
+		<item name="android:layout_gravity">center</item>
+   </style>
+   
    <style name="DefaultSpinnerStyle" parent="@style/BasicViewStyle">
        <item name="android:background">@color/darkPurple</item>
        <item name="android:popupBackground">@color/darkPurple</item>
-       <item name="android:layout_width">wrap_content</item>
+       <item name="android:layout_width">match_parent</item>
 	   <item name="android:layout_height">wrap_content</item>
    </style>
    
@@ -68,10 +89,14 @@
    <style name="BigButton">
        <item name="android:background">@color/darkPurple</item>
        <item name="android:layout_width">wrap_content</item>
-	   <item name="android:layout_height">80dp</item>
+       <item name="android:layout_height">wrap_content</item>
 	    <item name="android:textColor">@color/gold</item>
-	    <item name="android:paddingLeft">20dp</item>
-       <item name="android:paddingRight">20dp</item>
+	    <item name="android:paddingLeft">50dp</item>
+       <item name="android:paddingRight">50dp</item>
    </style>
    
+   
+	<!-- <style name="timePicker" parent="@android:style/Widget.DeviceDefault.Picker">
+    	<item name="android:divider">@drawable/MyDivider</item>
+	</style> -->
 </resources>

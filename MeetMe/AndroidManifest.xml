@@ -26,6 +26,14 @@
             android:name="meetme.android.app.LogInActivity"
             android:label="@string/title_activity_main_menu" >
         </activity>
+        <activity
+            android:name="meetme.android.app.StatusChangeActivity"
+            android:label="@string/title_activity_main_menu" >
+        </activity>
+        <activity
+            android:name="meetme.android.app.FriendListActivity"
+            android:label="@string/title_activity_friend_list" >
+        </activity>
     </application>
 
 </manifest>

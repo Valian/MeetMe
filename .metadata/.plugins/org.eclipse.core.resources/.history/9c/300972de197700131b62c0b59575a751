@@ -1,0 +1,31 @@
+package meetme.android.app;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+
+public class HeaderStrip extends View {
+
+	public HeaderStrip(Context context) {
+		super(context);
+		init(context);
+	}
+	
+	public HeaderStrip(Context context, AttributeSet attrs)
+    {
+        super(context, attrs);
+        init(context);
+    }
+	
+	public HeaderStrip(Context context, AttributeSet attrs, int default_style)
+	{
+	  super(context, attrs, default_style);
+	  init(context);
+	}
+	
+	private void init(Context ctx) {
+        LayoutInflater.from(ctx).inflate(R.layout.header_strip, this, true);
+    }
+
+}

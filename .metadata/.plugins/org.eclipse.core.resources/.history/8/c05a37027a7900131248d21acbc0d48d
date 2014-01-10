@@ -1,0 +1,52 @@
+package meetme.android.core.dialogs;
+
+import java.util.Calendar;
+import meetme.android.core.*;
+import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.text.format.DateFormat;
+import android.widget.TimePicker;
+
+
+@SuppressLint("ValidFragment")
+public class TimePickerFragment extends DialogFragment
+implements TimePickerDialog.OnTimeSetListener 
+{
+	private Context context;
+	
+	public TimePickerFragment(Context context)
+	{
+		super();
+		this.context = context;
+	}
+	
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) 
+	{
+		// Use the current time as the default values for the picker
+		final Calendar c = Calendar.getInstance();
+		int hour = c.get(Calendar.HOUR_OF_DAY);
+		int minute = c.get(Calendar.MINUTE);
+		
+		// Create a new instance of TimePickerDialog and return it
+		TimePickerDialog dialog = new TimePickerDialog(getActivity(), this, hour, minute,
+		DateFormat.is24HourFormat(getActivity()));
+		
+		dialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.ok), dialog);
+		dialog.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.cancel), dialog);
+		
+		return dialog;
+	}
+	
+	
+	
+	public void onTimeSet(TimePicker view, int hourOfDay, int minute) 
+	{
+	// Do something with the time chosen by the user
+	}
+}

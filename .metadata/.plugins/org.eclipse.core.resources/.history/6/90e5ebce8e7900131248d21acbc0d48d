@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/BodyContainer"
+    tools:context=".MainMenuActivity" 
+    android:gravity="center">
+
+    <LinearLayout style="@style/BodyLinearLayout">
+        
+	    <Button
+	    android:id="@+id/statusChangeButton"
+	    style="@style/BigButton"
+	    android:onClick="statusChangeButtonClicked" />
+	     
+	    <Button
+	    android:id="@+id/statusChangeButton"
+	    style="@style/BigButton"
+	    android:onClick="statusChangeButtonClicked" />
+	    
+	    <!-- tu będą inne rzeczy -->
+	    
+    </LinearLayout>
+
+</RelativeLayout>

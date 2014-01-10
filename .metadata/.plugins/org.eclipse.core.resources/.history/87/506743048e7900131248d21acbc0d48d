@@ -1,0 +1,15 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/BodyLinearLayout"
+    tools:context=".MainMenuActivity" 
+    android:gravity="center" >
+
+    <Button
+    android:id="@+id/statusChangeButton"
+    style="@style/BigButton"
+    android:layout_gravity="center"
+    android:onClick="statusChangeButtonClicked" />
+        
+        
+
+</LinearLayout>

@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/BodyContainer"
+    tools:context=".MainMenuActivity" 
+    android:gravity="center">
+
+    <LinearLayout 
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        
+	    <Button
+	    android:id="@+id/statusChangeButton"
+	    android:gravity="center"
+	    style="@style/BigButton"
+	    android:onClick="statusChangeButtonClicked" />
+	     
+	    <Button
+	    android:gravity="center"
+	    android:layout_margin="5dp"
+	    android:id="@+id/personListButton"
+	    style="@style/BigButton"
+	    android:text="@string/who_wants_to_meet"
+	    android:onClick="friendListButtonClicked" 
+	    />
+	    
+	    <!-- tu będą inne rzeczy -->
+	    
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,82 @@
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/purple"
+    android:orientation="vertical"
+    tools:context=".MainMenuActivity" >
+
+    <TextView
+        style="@style/HeaderStrip"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:text="@string/want_to_meet" />
+    
+    <LinearLayout style="@style/VerticalLayout">
+        
+	    <TextView 
+	    android:text="@string/want_to_meet_comment"
+		android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    />
+    	
+	    <EditText
+	    android:id="@+id/meeting_reason"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:textSize="@dimen/main_menu_text"
+	    android:inputType="text"
+	    android:hint="@string/comment"
+		android:textColor="@color/white"
+        />
+	    
+	    <LinearLayout android:orientation="horizontal"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
+	        <TextView 
+		    android:text="@string/when"
+			android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:textSize="@dimen/main_menu_text" />
+	        <Spinner
+	        android:id="@+id/dateSpinner"
+	        style="@style/DefaultSpinnerStyle" />	    "
+	  	</LinearLayout>
+    
+	    
+	    <TimePicker
+        android:id="@+id/timePicker1"
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+        android:scaleX="0.7"
+        android:scaleY="0.7" 
+        android:textColor="@color/white"
+        />
+	    
+	    <View style="@style/Divider"/>
+	    
+	     <RelativeLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1"
+	        android:background="@color/white" >
+	    
+		    <!-- <Button
+		        android:layout_weight="1"
+		    android:id="@+id/MeetingListButton"
+		    style="@style/BigButton"
+		   
+		    android:layout_gravity="center_vertical|center_horizontal"
+		    android:text="@string/who_wants_to_meet"
+		    android:onClick="MeetingListButtonClicked" /> -->
+	    
+		</RelativeLayout>
+
+    </LinearLayout>
+
+    
+    
+</LinearLayout>

@@ -1,0 +1,101 @@
+package meetme.android.app;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import meetme.android.core.dialogs.TimePickerFragment;
+
+import android.app.TimePickerDialog;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.text.format.Time;
+import android.view.Menu;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
+public class MainMenuActivity extends FragmentActivity {
+	
+	private Time selectedTime;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		setContentView(R.layout.activity_main_menu);
+		
+		Calendar calendar = Calendar.getInstance(); 
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
+		
+		Date date = calendar.getTime();
+		String todayDate = sdf.format(date);
+		
+		calendar.add(Calendar.DAY_OF_YEAR, 1);
+		
+		date = calendar.getTime();
+		String tomorrowDate = sdf.format(date);
+		
+		/*** setting date spinner values ***/
+		Spinner dateSpinner = (Spinner)findViewById(R.id.dateSpinner);
+		
+		String[] datePickerValues = {"Today ("+todayDate+")", "Tomorrow ("+tomorrowDate+")"};
+		
+		ArrayAdapter<CharSequence> adapter = 
+				new ArrayAdapter(this, android.R.layout.simple_spinner_item, datePickerValues);	
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		dateSpinner.setAdapter(adapter);		
+		
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main_menu, menu);
+		return true;
+	}
+	
+	public void meetingListButtonClicked(View view)
+	{
+		//todo tymczasowo 
+		CharSequence text = "Meeting list";
+		int duration = Toast.LENGTH_SHORT;
+
+		Toast toast = Toast.makeText(this, text, duration);
+		toast.show();
+	}
+	
+	private FragmentActivity outer()
+	{
+		return this;
+	}
+	
+	private class TimePickerListener implements TimePickerDialog.OnTimeSetListener 
+	{
+
+		@Override
+		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+
+			CharSequence text = ((Number)hourOfDay).toString() +" "+((Number)minute).toString();
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(outer(), text, duration);
+			toast.show();
+			
+			
+		}
+		
+	}
+	
+	
+	public void timeButtonClicked(View view)
+	{
+		TimePickerFragment newFragment = new TimePickerFragment(this, new TimePickerListener());
+	    newFragment.show(getSupportFragmentManager(), "timePicker");
+
+	}
+
+}

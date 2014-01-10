@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<meetme.android.app.HeaderStrip2
+    android:layout_width="fill_parent"
+    android:layout_height="40dp"
+    android:background="@color/white"
+    />
+<!-- android:background="?android:attr/background" -->
+
+</meetme.android.app.HeaderStrip2>

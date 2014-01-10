@@ -1,0 +1,19 @@
+package meetme.android.app;
+
+public class HeaderStrip extends View {
+
+	public HeaderStrip(Context context) {
+		super(context);
+	}
+	
+	/*public HeaderStrip(Context context, AttributeSet attrs)
+    {
+        super(context, attrs);
+    }
+	
+	public HeaderStrip(Context context, AttributeSet attrs, int default_style)
+	{
+	  super(context, attrs, default_style);
+	}*/
+
+}

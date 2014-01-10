@@ -1,0 +1,82 @@
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" 
+    style="@style/BodyLinearLayout"
+    tools:context=".StatusChangeActivity" >
+
+    <TextView
+        style="@style/HeaderStrip"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:text="@string/want_to_meet" />
+    
+    <LinearLayout style="@style/VerticalLayout">
+        
+	    <TextView 
+	    android:text="@string/want_to_meet_comment"
+		android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    />
+    	
+	    <EditText
+	    android:id="@+id/meeting_reason"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:textSize="@dimen/main_menu_text"
+	    android:inputType="text"
+	    android:hint="@string/comment"
+		android:textColor="@color/white"
+        />
+	    
+	    <LinearLayout android:orientation="horizontal"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
+	        <TextView 
+		    android:text="@string/when"
+			style="@style/InlineFormTextView"  />
+	        
+	        <Spinner
+	        android:id="@+id/dateSpinner"
+	        style="@style/DefaultSpinnerStyle" />
+	        
+	  	</LinearLayout>
+    
+	    
+	    <LinearLayout android:orientation="horizontal"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
+	        <TextView 
+		    android:text="@string/from"
+			style="@style/InlineFormTextView" />
+	        
+	        <Button 
+		    android:id="@+id/timeButton"
+		    android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content"  />
+	        
+	  	</LinearLayout>
+	  	
+	    <LinearLayout android:orientation="horizontal"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
+	        <TextView 
+		    android:text="@string/from"
+			style="@style/InlineFormTextView" />
+	        
+	        <Button 
+		    android:id="@+id/timeButton"
+		    android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content"  />
+	        
+	  	</LinearLayout>
+	  	
+	    
+	   <!--  android:onClick="timeButtonClicked"  -->
+	    
+	    <View style="@style/Divider"/>
+		    
+    </LinearLayout>
+
+    
+    
+</LinearLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    class="meetme.android.app.HeaderStrip"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:name="HeaderStrip"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:orientation="vertical" 
+    android:background="@color/darkPurple"
+    >
+    
+<!-- android:background="?android:attr/background" -->
+
+</LinearLayout>

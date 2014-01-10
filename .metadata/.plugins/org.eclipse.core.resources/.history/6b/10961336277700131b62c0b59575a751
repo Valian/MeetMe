@@ -1,0 +1,41 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+
+   <style name="AppTheme" parent="AppBaseTheme">
+		 <item name="android:textColor">@color/white</item>
+		 <item name="android:textSize=">@dimen/main_menu_text</item>
+   </style>
+    
+   
+   <style name="HeaderStrip">
+       <item name="android:layout_width">match_parent</item>
+	    <item name="android:layout_height">35dp</item>
+	    <item name="android:textColor">@color/lightYellow</item>
+	    <item name="android:textSize">18sp</item>
+	    <item name="android:gravity">center</item>
+	    <item name="android:background">@color/darkPurple</item>
+   </style>
+   
+   <style name="VerticalLayout">
+       <item name="android:orientation">vertical</item>
+       <item name="android:layout_width">match_parent</item>
+	   <item name="android:layout_height">wrap_content</item>
+	   <item name="android:layout_marginBottom">@dimen/linear_layout_margin</item>
+       <item name="android:layout_marginTop">@dimen/linear_layout_margin</item>
+       <item name="android:layout_marginLeft">@dimen/linear_layout_margin</item>
+       <item name="android:layout_marginRight">@dimen/linear_layout_margin</item>
+   </style>
+   
+</resources>
