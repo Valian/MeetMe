@@ -1,12 +1,5 @@
 package meetme.android.app;
 
-import meetme.android.core.GooglePlayConnector;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.location.Location;
-import android.os.Bundle;
-import android.widget.Toast;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -14,6 +7,15 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import meetme.android.core.GooglePlayConnector;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.location.Location;
+import android.os.Bundle;
+import android.widget.Toast;
+
+
 
 @SuppressLint("NewApi")
 public class LocationViewActivity extends Activity implements
@@ -24,10 +26,9 @@ GooglePlayServicesClient.OnConnectionFailedListener
 	private GooglePlayConnector googlePlayConnector;
 	
 	
-	/* Google play services handler */
+	 /*Google play services handler */
 	 @Override
 	    public void onConnected(Bundle dataBundle) {
-
 	        GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.locationMap)).getMap();
 	        Location location = googlePlayConnector.getLastLocation();
 	        
@@ -41,13 +42,13 @@ GooglePlayServicesClient.OnConnectionFailedListener
 	                .position(currentLocation));
 	    }
 	 
-	 /* Google play services handler */
+	  /*Google play services handler */
 	    @Override
 	    public void onDisconnected() {
 	        Toast.makeText(this, "Disconnected!", Toast.LENGTH_SHORT).show();
 	    }
  
-	    /* Google play services handler */
+	     /*Google play services handler */
 	    @Override
 	    public void onConnectionFailed(ConnectionResult connectionResult) {
 	    	 Toast.makeText(this, "Connection failed!", Toast.LENGTH_SHORT).show();
@@ -67,10 +68,7 @@ GooglePlayServicesClient.OnConnectionFailedListener
         	Toast.makeText(this, "Failed to connect!", Toast.LENGTH_SHORT).show();
         }
     }
-   
-    /*
-     * Called when the Activity is no longer visible.
-     */
+
     @Override
     protected void onStop() {
         // Disconnecting the client invalidates it.

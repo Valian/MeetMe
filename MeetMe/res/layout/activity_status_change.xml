@@ -62,12 +62,12 @@
 			style="@style/InlineFormTextView" />
 	                
 	        <Button android:id="@+id/howLongButton"
-	        style="@style/InlineButton"  />
+	        style="@style/InlineButton" />
 	        
 	  	</LinearLayout>
 	  	
 	    
-	   <!--  android:onClick="timeButtonClicked"  -->
+	    
 	    
 	    <View style="@style/Divider"/>
 		    

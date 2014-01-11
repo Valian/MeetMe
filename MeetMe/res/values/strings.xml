@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- application -->
+   <!--  application -->
     <string name="app_name">MeetMe</string>
     <string name="action_settings">Settings</string>
 
@@ -10,8 +10,8 @@
     <string name="want_to_meet">I want to meet!</string>
     <string name="action_bar_map">Map</string>
 
-    <!-- status change -->
-
+   <!--  status change -->
+	<string name="title_activity_status_change">Change status</string>
     <string name="want_to_meet_comment">What do you want to do?</string>
     <string name="comment">comment</string>
     <string name="when">When?</string>
@@ -22,6 +22,8 @@
     <string name="who_wants_to_meet">Who wants to meet?</string>
     <string name="hello_world">Hello world!</string>
     
+    
+    <string name="title_action_bar_friends">Friend list </string>
     
     
     <string name="title_activity_friend_list">Friend list</string>

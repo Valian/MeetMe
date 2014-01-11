@@ -23,8 +23,7 @@
 	    	style="@style/BigButton"
 	    />
 	    
-	    <!-- tu będą inne rzeczy -->
-	    
+
     </LinearLayout>
 
 </RelativeLayout>

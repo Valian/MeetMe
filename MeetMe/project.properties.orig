@@ -12,6 +12,11 @@
 
 # Project target.
 target=android-19
-android.library=true
-android.library.reference.1=..\\android-support-v7-appcompat
-android.library.reference.2=../../../../android ADT/adt-bundle-windows-x86-20131030/sdk/extras/google/google_play_services/libproject/google-play-services_lib
+android.library.reference.1=..\\MeetMe.Core
+<<<<<<< HEAD
+android.library.reference.2=..\\android-support-v7-appcompat
+android.library.reference.3=../google-play-services_lib
+=======
+android.library.reference.2=..\\appcompat
+android.library=false
+>>>>>>> 817b64ba0e3e2d69c1208ed12d06fe1792089647

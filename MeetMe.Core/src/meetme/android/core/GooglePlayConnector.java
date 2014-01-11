@@ -1,15 +1,16 @@
 package meetme.android.core;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.location.LocationClient;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.IntentSender;
 import android.location.Location;
 import android.os.Bundle;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.location.LocationClient;
 
 @SuppressLint("NewApi")
 public class GooglePlayConnector 
@@ -81,22 +82,22 @@ implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClien
 	    
 	    @Override
 	    public void onConnectionFailed(ConnectionResult connectionResult) {
-	        /*
-	         * Google Play services can resolve some errors it detects.
+	        
+	         /** Google Play services can resolve some errors it detects.
 	         * If the error has a resolution, try sending an Intent to
 	         * start a Google Play services activity that can resolve
-	         * error.
-	         */
+	         * error.*/
+	         
 	        if (connectionResult.hasResolution()) {
 	            try {
 	                // Start an Activity that tries to resolve the error
 	                connectionResult.startResolutionForResult(
 	                        context,
 	                        CONNECTION_FAILURE_RESOLUTION_REQUEST);
-	                /*
-	                 * Thrown if Google Play services canceled the original
-	                 * PendingIntent
-	                 */
+	                
+	                 /** Thrown if Google Play services canceled the original
+	                 * PendingIntent*/
+	                 
 	            } catch (IntentSender.SendIntentException e) {
 	                
 	                e.printStackTrace();

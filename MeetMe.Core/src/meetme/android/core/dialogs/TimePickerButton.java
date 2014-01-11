@@ -22,11 +22,11 @@ public class TimePickerButton implements TimePickerDialog.OnTimeSetListener
 		super();
 		this.context = context;
 		this.fragmentManager = fragmentManager;
-		SetSelectedTime(hour, minute);	
-		
 		timeButton = button;
 		timeButton.setOnClickListener(new ClickListener());
 
+		
+		SetSelectedTime(timeButton, hour, minute);	
 	}
 	
 	private TimePickerButton outer()
@@ -53,21 +53,21 @@ public class TimePickerButton implements TimePickerDialog.OnTimeSetListener
 		return selectedMinute;
 	}
 	
-	private void SetSelectedTime(int hour, int minute)
+	private void SetSelectedTime(Button button, int hour, int minute)
 	{
 		selectedHour = hour;
 		selectedMinute = minute;
 		
 		String hourString = Integer.toString(selectedHour);
-		if(hour <= 9) hourString = "0" + hourString;
+		if(selectedHour <= 9) hourString = "0" + hourString;
 		String minuteString = Integer.toString(selectedMinute);
-		if(minute <= 9) minuteString = "0" + minuteString;
+		if(selectedMinute <= 9) minuteString = "0" + minuteString;
 		
-		timeButton.setText(hourString + ":" + minuteString);
+		button.setText(hourString + ":" + minuteString);
 	}
 	
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) 
 	{
-		SetSelectedTime(hourOfDay, minute);
+		SetSelectedTime(timeButton, hourOfDay, minute);
 	}
 }

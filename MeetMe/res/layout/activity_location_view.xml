@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context=".LocationViewActivity" >
 
-    <fragment
+     <fragment
           android:id="@+id/locationMap"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
