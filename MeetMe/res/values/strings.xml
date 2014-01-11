@@ -4,11 +4,13 @@
     <!-- application -->
     <string name="app_name">MeetMe</string>
     <string name="action_settings">Settings</string>
+    <string name="app_id">1405768516336783</string>  
 
     <!-- main menu -->
     <string name="title_activity_main_menu">Main Menu</string>
     <string name="want_to_meet">I want to meet!</string>
     <string name="action_bar_map">Map</string>
+    <string name="user_name">Anonymous</string>
 
     <!-- status change -->
 

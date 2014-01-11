@@ -8,6 +8,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
 
 public class MainMenuActivity extends ActionBarActivity {
 
@@ -44,6 +51,51 @@ public class MainMenuActivity extends ActionBarActivity {
 				openFriends();
 			}
 		});
+		
+		// start Facebook Login
+		Session.openActiveSession(this, true, new Session.StatusCallback() {
+	
+		  // callback when session changes state
+		  @Override
+		  public void call(Session session, SessionState state, Exception exception) {
+			  if (session.isOpened()) 
+			  {	 
+			        Request.newMeRequest(session, new Request.GraphUserCallback() 
+			        {
+			          
+				          @Override
+				          public void onCompleted(GraphUser user, Response response) 
+				          {
+						      if (user != null)
+						      {
+						         TextView label = (TextView) findViewById(R.id.user_name); 
+						         label.setText(user.getName());
+						      }
+						  }
+			        }).executeAsync();			  			
+			  } 
+		   }		  
+		});
+		  
+		/*//snippet to get android hash key
+		PackageInfo info;
+		try {
+		    info = getPackageManager().getPackageInfo("meetme.android.app", PackageManager.GET_SIGNATURES);
+		    for (Signature signature : info.signatures) {
+		        MessageDigest md;
+		        md = MessageDigest.getInstance("SHA");
+		        md.update(signature.toByteArray());
+		        String something = new String(Base64.encode(md.digest(), 0));
+		        //String something = new String(Base64.encodeBytes(md.digest()));
+		        Log.e("hash key", something);
+		    }
+		} catch (NameNotFoundException e1) {
+		    Log.e("name not found", e1.toString());
+		} catch (NoSuchAlgorithmException e) {
+		    Log.e("no such an algorithm", e.toString());
+		} catch (Exception e) {
+		    Log.e("exception", e.toString());
+		}*/
 	}
 
 	@Override
@@ -67,6 +119,12 @@ public class MainMenuActivity extends ActionBarActivity {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	  super.onActivityResult(requestCode, resultCode, data);
+	  Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+	}	
 
 	private void openMap() {
 		// TODO Auto-generated method stub

@@ -9,7 +9,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         
-	    <Button
+        <TextView
+        android:id="@+id/user_name"
+        android:text="@string/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>        	
+    	
+        
+        <Button
 	    android:id="@+id/statusChangeButton"
 	    android:layout_gravity="center_horizontal"
 	    android:text="@string/want_to_meet"
@@ -26,5 +33,6 @@
 	    <!-- tu będą inne rzeczy -->
 	    
     </LinearLayout>
+    
 
 </RelativeLayout>
