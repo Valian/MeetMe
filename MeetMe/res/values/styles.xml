@@ -95,8 +95,4 @@
        <item name="android:paddingRight">50dp</item>
    </style>
    
-   
-	<!-- <style name="timePicker" parent="@android:style/Widget.DeviceDefault.Picker">
-    	<item name="android:divider">@drawable/MyDivider</item>
-	</style> -->
 </resources>

@@ -20,6 +20,10 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="who_wants_to_meet">Who wants to meet?</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_friend_list">FriendListActivity</string>
+    
+    
+    
+    <string name="title_activity_friend_list">Friend list</string>
+    <string name="title_activity_location_view">Friends\' locations</string>
 
 </resources>

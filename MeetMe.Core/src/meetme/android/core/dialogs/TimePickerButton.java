@@ -22,11 +22,9 @@ public class TimePickerButton implements TimePickerDialog.OnTimeSetListener
 		super();
 		this.context = context;
 		this.fragmentManager = fragmentManager;
-		timeButton = button;
-		selectedHour = hour;
-		selectedMinute = minute;
+		SetSelectedTime(hour, minute);	
 		
-		SetSelectedTime(selectedHour, selectedMinute);	
+		timeButton = button;
 		timeButton.setOnClickListener(new ClickListener());
 
 	}
