@@ -14,9 +14,8 @@
 target=android-19
 android.library.reference.1=..\\MeetMe.Core
 <<<<<<< HEAD
-android.library.reference.2=..\\android-support-v7-appcompat
-android.library.reference.3=../google-play-services_lib
-=======
 android.library.reference.2=..\\appcompat
 android.library=false
->>>>>>> 817b64ba0e3e2d69c1208ed12d06fe1792089647
+android.library.reference.3=../../../../../Development Programs/facebook-android-sdk-3.6.0/facebook
+=======
+>>>>>>> origin/master

@@ -1,5 +1,12 @@
 package meetme.android.app;
 
+import meetme.android.core.GooglePlayConnector;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.location.Location;
+import android.os.Bundle;
+import android.widget.Toast;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -7,13 +14,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import meetme.android.core.GooglePlayConnector;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.location.Location;
-import android.os.Bundle;
-import android.widget.Toast;
 
 
 
