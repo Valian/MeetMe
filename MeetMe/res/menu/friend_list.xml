@@ -4,5 +4,5 @@
     <item android:id="@+id/action_bar_map"
           android:title="@string/action_bar_map"
           android:icon="@drawable/ic_action_map"          
-          yourapp:showAsAction="ifRoom"  />   
+          yourapp:showAsAction="ifRoom"  />
 </menu>

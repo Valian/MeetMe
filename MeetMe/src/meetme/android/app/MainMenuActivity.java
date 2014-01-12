@@ -127,7 +127,8 @@ public class MainMenuActivity extends ActionBarActivity {
 	}	
 
 	private void openMap() {
-		// TODO Auto-generated method stub
+		Intent intent = new Intent(MainMenuActivity.this, LocationViewActivity.class);
+		startActivity(intent);
 		
 	}
 	

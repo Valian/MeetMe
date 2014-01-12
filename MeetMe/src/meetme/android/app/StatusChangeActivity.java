@@ -31,10 +31,11 @@ public class StatusChangeActivity extends ActionBarActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		Calendar calendar = Calendar.getInstance(); 
 		
-		/*** time button initialisation ***/
-
+		//*** time button initialisation ***//
+		
 		startTime = new TimePickerButton(this, getSupportFragmentManager(), (Button)findViewById(R.id.timeFromButton),
 				calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+		
 		
 		howLong = new TimePickerButton(this, getSupportFragmentManager(), (Button)findViewById(R.id.howLongButton),
 				defaultHowLongHours, defaultHowLongMinutes);
@@ -74,10 +75,7 @@ public class StatusChangeActivity extends ActionBarActivity {
 	public void meetingListButtonClicked(View view)
 	{
 		//todo tymczasowo 
-		CharSequence text = "Meeting list";
-		int duration = Toast.LENGTH_SHORT;
-
-		Toast toast = Toast.makeText(this, text, duration);
+		Toast toast = Toast.makeText(this, "Meeting list", Toast.LENGTH_SHORT);
 		toast.show();
 	}
 	
