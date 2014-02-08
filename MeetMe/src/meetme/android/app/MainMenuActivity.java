@@ -1,8 +1,16 @@
 package meetme.android.app;
 
+import java.util.Date;
+
+import Service.CancelStatusTask;
+import Service.GetFriendsTask;
+import Service.GetStatusTask;
+import Service.UpdateStatusTask;
+import Service.User;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,19 +65,38 @@ public class MainMenuActivity extends ActionBarActivity {
 	
 		  // callback when session changes state
 		  @Override
-		  public void call(Session session, SessionState state, Exception exception) {
+		  public void call(final Session session, SessionState state, Exception exception) {
 			  if (session.isOpened()) 
 			  {	 
 			        Request.newMeRequest(session, new Request.GraphUserCallback() 
 			        {
 			          
-				          @Override
+				          @Override 
 				          public void onCompleted(GraphUser user, Response response) 
 				          {
 						      if (user != null)
 						      {
 						         TextView label = (TextView) findViewById(R.id.user_name); 
 						         label.setText(user.getName());
+						         
+						         User tempUser = new User();
+						         tempUser.setComment("haha gowno dziaua");
+						         tempUser.setLatitude(152.0);
+						         tempUser.setLongitude(123.0);
+						         tempUser.setFrom(new Date(2013, 12, 11));
+						         tempUser.setTo(new Date(2013, 12, 11));
+						         
+						         new GetStatusTask(){
+						        	 @Override 
+						        	 protected void onPostExecute(User result) {
+						        		 Log.i("Get Status id", result.getFacebookId().toString());
+						        	 }
+						         }.execute(session.getAccessToken());
+						         
+						         new GetFriendsTask().execute(session.getAccessToken());
+						         new UpdateStatusTask().execute(session.getAccessToken(), tempUser);
+						         new GetStatusTask().execute(session.getAccessToken());
+						         new CancelStatusTask().execute(session.getAccessToken());
 						      }
 						  }
 			        }).executeAsync();			  			

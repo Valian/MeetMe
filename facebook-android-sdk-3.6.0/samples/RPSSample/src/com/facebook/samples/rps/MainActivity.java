@@ -16,22 +16,18 @@
 
 package com.facebook.samples.rps;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
-import com.facebook.*;
+import static com.facebook.samples.rps.RpsGameUtils.INVALID_CHOICE;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.facebook.samples.rps.RpsGameUtils.*;
+import android.R;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
     static final int RPS = 0;

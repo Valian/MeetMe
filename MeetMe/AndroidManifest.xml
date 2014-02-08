@@ -58,7 +58,7 @@
             
             
             
-        </activity>
+        </activity>       
         
         <meta-data
 		android:name="com.google.android.gms.version"
@@ -67,8 +67,7 @@
 	    <meta-data
 			android:name="com.google.android.maps.v2.API_KEY"
 			android:value="AIzaSyAoh8Jb_RwPFSsGgIED2XS99IjkOI4oZPY"/>
-    </application>
-	
+    </application>	
     
     <uses-feature
         android:glEsVersion="0x00020000"
