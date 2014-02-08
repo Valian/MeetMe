@@ -1,8 +1,21 @@
 package meetme.android.app;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.List;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,19 +27,31 @@ import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
+import com.facebook.Session.Builder;
+import com.facebook.Session.OpenRequest;
+import com.facebook.internal.SessionTracker;
 import com.facebook.model.GraphUser;
 
+@SuppressLint("NewApi")
 public class MainMenuActivity extends ActionBarActivity {
 
 	private Button statusChangeButton;
 	private Button friendListButton;
 	
+	private MainFragment mainFragment;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
+		
+		
 	}
 	
+	
+
+	private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
+
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -48,9 +73,14 @@ public class MainMenuActivity extends ActionBarActivity {
 		friendListButton.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v){
-				openFriends();
+				openFriendList();
 			}
 		});
+		
+		
+		
+		
+		
 		
 		// start Facebook Login
 		Session.openActiveSession(this, true, new Session.StatusCallback() {
@@ -72,10 +102,69 @@ public class MainMenuActivity extends ActionBarActivity {
 						         label.setText(user.getName());
 						      }
 						  }
-			        }).executeAsync();			  			
-			  } 
+			        }).executeAsync();		
+			  }	 
+			  
 		   }		  
 		});
+		
+		
+		Session.StatusCallback callback = new Session.StatusCallback() {
+			
+			  // callback when session changes state
+			  @Override
+			  public void call(Session session, SessionState state, Exception exception) {
+				  /*if (session.isOpened()) 
+				  {	 
+					  Log.i("facebook", "opened");
+				        Request.newMeRequest(session, new Request.GraphUserCallback() 
+				        {
+				          
+					          @Override
+					          public void onCompleted(GraphUser user, Response response) 
+					          {
+							      if (user != null)
+							      {
+							         TextView label = (TextView) findViewById(R.id.user_name); 
+							         label.setText(user.getName());
+							      }
+							  }
+				        }).executeAsync();		
+				  }	 */
+				  
+			   }	
+		};
+		
+		
+		/***********/
+		
+		/*Session session = new Builder(this).build();
+        if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI true) {
+            Session.setActiveSession(session);
+            
+            
+            session.requestNewReadPermissions(new Session.NewPermissionsRequest(this, PERMISSIONS));
+            
+            OpenRequest openRequest = new OpenRequest(this).setCallback(callback);
+            session.O
+            session.openForRead(openRequest);
+        }*/
+		
+		
+		/**************/
+		
+		/*Session session = Session.getActiveSession();
+		boolean isReadAllowed = checkPermissions(Arrays.asList(PERMISSIONS), session.getPermissions());
+		if (!session.isOpened() && !session.isClosed()) {
+		    session.openForRead(new Session.OpenRequest(this).setPermissions(PERMISSIONS).setCallback( callback	));
+		} else {
+		    if (isReadAllowed) {
+		        Session.openActiveSession(this, true, callback);
+		    } else {                                    
+		        session.requestNewReadPermissions(new Session.NewPermissionsRequest(this, PERMISSIONS).setCallback(callback));
+		    }
+		}*/
+		
 		  
 		/*//snippet to get android hash key
 		PackageInfo info;
@@ -98,6 +187,19 @@ public class MainMenuActivity extends ActionBarActivity {
 		}*/
 	}
 
+	
+	public static boolean checkPermissions(List<String> needed, List<String> available) {
+	    boolean ret = true;
+	    for (String s : needed) {
+	        if (!available.contains(s)) {
+	            ret = false;
+	            break;
+	        }
+	    }
+	    return ret;
+	}
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -113,7 +215,7 @@ public class MainMenuActivity extends ActionBarActivity {
 	            openMap();
 	            return true;
 	        case R.id.action_bar_friends:
-	            openFriends();
+	            openFriendList();
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -132,7 +234,7 @@ public class MainMenuActivity extends ActionBarActivity {
 		
 	}
 	
-	private void openFriends() {
+	private void openFriendList() {
 		Intent intent = new Intent(MainMenuActivity.this, FriendListActivity.class);
 		startActivity(intent);
 	}

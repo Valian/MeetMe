@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-   <!--  application -->
+    <!-- application -->
     <string name="app_name">MeetMe</string>
     <string name="action_settings">Settings</string>
-    <string name="app_id">1405768516336783</string>  
+    <string name="app_id">201255756742545</string>
 
     <!-- main menu -->
     <string name="title_activity_main_menu">Main Menu</string>
@@ -12,8 +12,8 @@
     <string name="action_bar_map">Map</string>
     <string name="user_name">Anonymous</string>
 
-   <!--  status change -->
-	<string name="title_activity_status_change">Change status</string>
+    <!-- status change -->
+    <string name="title_activity_status_change">Change status</string>
     <string name="want_to_meet_comment">What do you want to do?</string>
     <string name="comment">comment</string>
     <string name="when">When?</string>
@@ -23,12 +23,9 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="who_wants_to_meet">Who wants to meet?</string>
     <string name="hello_world">Hello world!</string>
-    
-    
     <string name="title_action_bar_friends">Friend list </string>
-    
-    
     <string name="title_activity_friend_list">Friend list</string>
     <string name="title_activity_location_view">Friends\' locations</string>
+    <string name="title_activity_facebook">FacebookActivity</string>
 
 </resources>
