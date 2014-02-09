@@ -71,12 +71,12 @@ implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClien
 	
 	 @Override
 	    public void onConnected(Bundle dataBundle) {
-	        this.connectionCallbacks.onConnected(dataBundle);
+		 	if(connectionCallbacks != null) connectionCallbacks.onConnected(dataBundle);
 	    }
 	 
 	    @Override
 	    public void onDisconnected() {
-	    	this.connectionCallbacks.onDisconnected();
+	    	if(connectionCallbacks != null) connectionCallbacks.onDisconnected();
 	    }
 
 	    
@@ -101,11 +101,12 @@ implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClien
 	            } catch (IntentSender.SendIntentException e) {
 	                
 	                e.printStackTrace();
-	                onConnectionFailedListener.onConnectionFailed(connectionResult);
+	                if(onConnectionFailedListener != null)
+	                	onConnectionFailedListener.onConnectionFailed(connectionResult);
 	            }
 	        } else {
-	        	
-	            onConnectionFailedListener.onConnectionFailed(connectionResult);
+	        	if(onConnectionFailedListener != null)
+	        		onConnectionFailedListener.onConnectionFailed(connectionResult);
 	        }
 	    }
     

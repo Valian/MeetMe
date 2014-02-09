@@ -19,7 +19,7 @@
 	    />
     	
 	    <EditText
-	    android:id="@+id/meeting_reason"
+	    android:id="@+id/meeting_comment"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:textSize="@dimen/main_menu_text"
@@ -70,7 +70,23 @@
 	    
 	    
 	    <View style="@style/Divider"/>
-		    
+		
+	    <Button android:id="@+id/saveStatus"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="@string/save_status"
+	    android:layout_gravity="center_horizontal"
+	    style="@style/BigButton"
+	    />
+	    
+	    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="invisible"
+        />
+	    
     </LinearLayout>
 
     

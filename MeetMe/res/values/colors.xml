@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <!-- description colors -->
     <color name="white">#FFFFFF</color>
     
     <color name="purple">#3B123B</color>
@@ -10,5 +12,9 @@
     
     <color name="red">#D43F3F</color>
     <color name="lightRed">#FF6666</color>
+    
+    
+    <!-- functional colors -->
+    
     
 </resources>

@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:padding="5dip" >
+ 
+    <!--  ListRow Left sied Thumbnail image -->
+    <LinearLayout android:id="@+id/thumbnailContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dip">
+ 
+        <ImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            />
+ 
+    </LinearLayout>
+ 
+    <!-- Name -->
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/thumbnailContainer"
+        android:layout_toRightOf="@+id/thumbnailContainer"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15dip"
+        android:textStyle="bold"/>
+ 
+    <!-- availability -->
+    
+
+	<TextView
+	        android:id="@+id/availabilityInfo"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/title"
+	        android:textColor="#343434"
+	        android:textSize="10dip"
+	        android:layout_marginTop="1dip"
+	        android:layout_toRightOf="@+id/thumbnailContainer" 
+	 />
+	    
+
+
+    <!-- comment -->
+    <TextView
+        android:id="@+id/comment"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:textColor="#343434"
+        android:textSize="10dip"
+        android:layout_marginTop="1dip"
+        />
+ 
+
+ 
+</RelativeLayout>

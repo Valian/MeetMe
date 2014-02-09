@@ -18,9 +18,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-public class MainFragment extends Fragment{
+public class LogInFragment extends Fragment{
 	
-	private static final String TAG = "MainFragment";
+	private static final String TAG = "LogInFragment";
+	
+	private LoggedInListener loggedInListener;
+	public void setLoggedInListener(LoggedInListener callback)
+	{
+		loggedInListener = callback;
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, 
@@ -30,9 +36,25 @@ public class MainFragment extends Fragment{
 
 	    LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
 	    authButton.setFragment(this);
+	   /* authButton.setSessionStatusCallback(new Session.StatusCallback(){
+
+			@Override
+			public void call(Session session, SessionState state,
+					Exception exception) {
+				if(state.isOpened())
+				{
+					Log.i("call", String.valueOf(loggedInListener != null));
+					
+					
+				}
+				
+			}
+	    	
+	    });*/
 	    //authButton.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
 	    //authButton.setReadPermissions(Arrays.asList("user_likes", "user_status"));
 
+	    
 	    
 	    return view;
 	}
@@ -63,10 +85,12 @@ public class MainFragment extends Fragment{
 	    } else if (state.isClosed()) {
 	        Log.i(TAG, "Logged out...");
 	    }
+	    
+	    if(loggedInListener != null) loggedInListener.call();
 	}
 	
 	private Session.StatusCallback callback = new Session.StatusCallback() {
-	    @Override
+		@Override
 	    public void call(Session session, SessionState state, Exception exception) {
 	        onSessionStateChange(session, state, exception);
 	    }
@@ -121,6 +145,11 @@ public class MainFragment extends Fragment{
 	public void onSaveInstanceState(Bundle outState) {
 	    super.onSaveInstanceState(outState);
 	    uiHelper.onSaveInstanceState(outState);
+	}
+	
+	public abstract static class LoggedInListener
+	{
+		public abstract void call();
 	}
 	
 }

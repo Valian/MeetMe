@@ -96,4 +96,12 @@
        <item name="android:paddingRight">50dp</item>
    </style>
    
+   <style name="WantToMeetButton" parent="@style/BigButton">
+       
+   </style>
+   
+   <style name="DontWantToMeetButton" parent="@style/BigButton">
+       
+   </style>
+   
 </resources>

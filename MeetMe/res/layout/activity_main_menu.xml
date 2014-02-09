@@ -16,22 +16,37 @@
         android:layout_height="wrap_content"/>        	
     	
         
+
+        
         <Button
-	    android:id="@+id/statusChangeButton"
+	    android:id="@+id/statusSetButton"
 	    android:layout_gravity="center_horizontal"
 	    android:text="@string/want_to_meet"
-	    style="@style/BigButton"  />
-	     
-	    <Button
+	    style="@style/WantToMeetButton"  />
+	    
+        <Button
+	    android:id="@+id/statusCancelButton"
+	    android:layout_gravity="center_horizontal"
+	    android:text="@string/dont_want_to_meet"
+	    style="@style/DontWantToMeetButton"  />
+        
+	    <!-- <Button
 	       	android:id="@+id/friendListButton"
 	    	android:text="@string/who_wants_to_meet"
 		    android:layout_gravity="center_horizontal"
 		    android:layout_marginTop="50dp"	    
 	    	style="@style/BigButton"
-	    />
+	    /> -->
 	    
+	    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        />
 
     </LinearLayout>
-    
+
+
 
 </RelativeLayout>

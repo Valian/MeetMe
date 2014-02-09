@@ -1,0 +1,12 @@
+{"attributes": {
+   "friends": [   {
+      "facebookId": 100007501356392,
+      "active": true,
+      "comment": "kijowy statusik",
+      "latitude": 134134,
+      "longitude": 41421.4,
+      "from": 1390749722000,
+      "to": 1390749722000
+   }],
+   "success": true
+}}
