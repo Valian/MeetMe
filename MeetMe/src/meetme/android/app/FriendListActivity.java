@@ -1,48 +1,27 @@
 package meetme.android.app;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.xml.parsers.*;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import meetme.android.app.adapters.FriendLazyAdapter;
+import meetme.android.app.adapters.PersonViewModel;
+import Service.GetFriendsTask;
+import Service.User;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ListView;
 
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
 
-import Service.GetFriendsTask;
-import Service.User;
-import android.content.res.XmlResourceParser;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.ListView;
-
-import meetme.android.app.adapters.FriendLazyAdapter;
-import meetme.android.app.adapters.PersonViewModel;
-import meetme.android.core.*;
-import meetme.android.core.dialogs.TimePickerButton;
-
 public class FriendListActivity extends ActionBarActivity {
-
-	public static final String KEY_PERSON = "person"; //parent node
-	public static final String KEY_ID = "id";
-	public static final String KEY_NAME = "name";
-	public static final String KEY_COMMENT = "comment";
-	public static final String KEY_AVAILABILITY = "availability";
-	public static final String KEY_THUMB_URL = "thumb_url";
-	
 
 	private ListView friendListView;
 	
@@ -51,20 +30,7 @@ public class FriendListActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_friend_list);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		
-		/*DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder;
-		Document doc;
-		*/
-		/*try {
-			docBuilder = docBuilderFactory.newDocumentBuilder();
-			//doc = docBuilder.parse(getResources().openRawResource(R.layout.friend_list_row) );
-			XmlResourceParser parser = getResources().getLayout(R.layout.friend_list_row);
-			//open("friend_list_row.xml")
-		} catch (Exception e) {
-			e.printStackTrace();
-			return;
-		}*/
+				
 		String facebookToken = Session.getActiveSession().getAccessToken();	
 		new GetFriendsTask() {
 			 protected void onPostExecute(ArrayList<User> meetMeUsers) {
@@ -74,17 +40,13 @@ public class FriendListActivity extends ActionBarActivity {
 				 }
 				 
 				ArrayList<PersonViewModel> friendList = new ArrayList<PersonViewModel>();
-				populateFriendList(meetMeUsers, friendList);
-
-				//friendList.add(new PersonViewModel("stefan", "blabla", "niedlugo", ""));
-				 
-				/*FriendLazyAdapter adapter=new FriendLazyAdapter(FriendListActivity.this, friendList);
-				friendListView = (ListView)findViewById(R.id.friendListView);
-				friendListView.setAdapter(adapter);*/
-				        
+				populateFriendList(meetMeUsers, friendList);		
+				
+				FriendLazyAdapter adapter = new FriendLazyAdapter(FriendListActivity.this, friendList);
+  				friendListView = (ListView)findViewById(R.id.friendListView);
+  				friendListView.setAdapter(adapter);
 			 }
-		}.execute(facebookToken);
-		
+		}.execute(facebookToken);		
 		
 	}
 	
@@ -109,7 +71,7 @@ public class FriendListActivity extends ActionBarActivity {
 	    }
 	}
 	
-	private void populateFriendList(final List<User> meetMeUsers, final List<PersonViewModel> result) {
+	private void populateFriendList(final List<User> meetMeUsers, final ArrayList<PersonViewModel> result) {
 		
 		Session session = Session.getActiveSession();
 		
@@ -117,15 +79,7 @@ public class FriendListActivity extends ActionBarActivity {
  	            new Request.GraphUserListCallback(){
  	                @Override
  	                public void onCompleted(List<GraphUser> facebookUsers,
- 	                        Response response) {
- 	                    
- 	                	/*String string = "";
- 	                	for(GraphUser user : facebookUsers)
- 	                	{
- 	                		string += user.getId() + " ";
- 	                	}
- 	                	Log.i("FriendListActivity", "facebook users received: "+string);*/
- 	                	
+ 	                        Response response) {           
  	                    for(User meetMeUser : meetMeUsers)
  	                    {
  	                    	PersonViewModel person = meetMeUserToPersonViewModel(meetMeUser, facebookUsers);
@@ -137,14 +91,14 @@ public class FriendListActivity extends ActionBarActivity {
  	                    	else
  	                    		Log.w("FriendListActivity", "meetMeUser id matches no facebook id");
  	                    	
- 	                    }
+ 	                    }	
  	                }
  	    });
  	    Bundle params = new Bundle();
  	    //params.putString("fields", "id, name, picture");
  	    params.putString("fields", "id, name, picture");
  	    friendRequest.setParameters(params);
- 	    friendRequest.executeAsync();
+ 	    friendRequest.executeAndWait();
 	}
 
 	private PersonViewModel meetMeUserToPersonViewModel(User meetMeUser, List<GraphUser> facebookUsers)
@@ -199,27 +153,4 @@ public class FriendListActivity extends ActionBarActivity {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
-	/*private List<GraphUser> getFriends(){
-    Request friendRequest = Request.newMyFriendsRequest(session, 
-					 	            new GraphUserListCallback(){
-					 	                @Override
-					 	                public void onCompleted(List<GraphUser> users,
-					 	                        Response response) {
-					 	                    
-					 	                    for(GraphUser user : users)
-					 	                    {
-					 	                    	Log.i("INFO", user.getName());
-					 	                    	
-					 	                    }
-					 	                }
-					 	        });
-					 	        Bundle params = new Bundle();
-					 	        //params.putString("fields", "id, name, first_name, last_name");
-					 	        params.putString("fields", "id, name");
-					 	        friendRequest.setParameters(params);
-					 	        friendRequest.executeAsync();
-	}*/
-
 }

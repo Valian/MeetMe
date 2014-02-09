@@ -27,18 +27,18 @@ public class MeetMeClient
 	}
 	
 	public ArrayList<User> getFriends(String token)
-	{						
+	{				
+		ArrayList<User> users = new ArrayList<User>();
+		
 		Map<String, Object> map = rest.getForObject(SERVICE_URL + GET_FRIENDS_ACTION + "?token=" + token, HashMap.class);
 		
 		if((Boolean)((Map<String, Object>)map.get("attributes")).get("success") == false) 
-			throw new RuntimeException("False getting friends, error " + ((Map<String, Object>)map.get("attributes")).get("error"));
+			return users;
 		
 		ArrayList<Map<String, Object>> friends = ((ArrayList<Map<String, Object>>)((Map<String, Object>)map.get("attributes")).get("friends"));
 		
-		ArrayList<User> users = new ArrayList<User>();
 		for (Map<String, Object> friendMap : friends) 
-			users.add(convertToUser(friendMap));
-		
+			users.add(convertToUser(friendMap));		
 		
 		return users;
 	}
@@ -55,7 +55,7 @@ public class MeetMeClient
 		Map<String, Object> map = rest.postForObject(SERVICE_URL + UPDATE_STATUS_ACTION + "?token=" + token, userDTO, HashMap.class);
 		
 		if((Boolean)((Map<String, Object>)map.get("attributes")).get("success") == false) 
-			throw new RuntimeException("False updating status, error " + ((Map<String, Object>)map.get("attributes")).get("error"));
+			return false;
 		
 		return true;
 	}
@@ -65,7 +65,7 @@ public class MeetMeClient
 		Map<String, Object> map = rest.postForObject(SERVICE_URL + CANCEL_STATUS_ACTION + "?token=" + token, null, HashMap.class);
 		
 		if((Boolean)((Map<String, Object>)map.get("attributes")).get("success") == false) 
-			throw new RuntimeException("False updating status, error " + ((Map<String, Object>)map.get("attributes")).get("error"));
+			return false;
 		
 		return true;
 	}
@@ -75,7 +75,10 @@ public class MeetMeClient
 		Map<String, Object> map = rest.getForObject(SERVICE_URL + GET_STATUS_ACTION + "?token=" + token, HashMap.class);
 		
 		if((Boolean)((Map<String, Object>)map.get("attributes")).get("success") == false) 
-			throw new RuntimeException("False getting status, error " + ((Map<String, Object>)map.get("attributes")).get("error"));
+			return null;
+		
+		if((Boolean)((Map<String, Object>)map.get("attributes")).get("active") == false) 
+			return null;
 		
 		Map<String, Object> status = (Map<String, Object>)map.get("attributes");
 		

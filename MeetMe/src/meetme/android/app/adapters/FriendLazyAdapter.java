@@ -35,7 +35,8 @@ public class FriendLazyAdapter extends BaseAdapter {
     }
  
     public Object getItem(int position) {
-        return position;
+    	if(position >= data.size() || position < 0) return null;
+        return data.get(position);
     }
  
     public long getItemId(int position) {
@@ -44,6 +45,7 @@ public class FriendLazyAdapter extends BaseAdapter {
  
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
+        
         if(convertView==null)
             vi = inflater.inflate(R.layout.friend_list_row, null);
  
@@ -58,7 +60,7 @@ public class FriendLazyAdapter extends BaseAdapter {
         name.setText(person.name);
         comment.setText(person.comment);
         availabilityInfo.setText(person.availabilityInfo);
-        //imageLoader.DisplayImage(person.thumbnailURL, thumbnail);
+        imageLoader.DisplayImage(person.thumbnailURL, thumbnail);
         
         return vi;
     }
