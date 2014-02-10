@@ -1,11 +1,27 @@
 package meetme.android.app;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import meetme.android.app.R.style;
+
 import Service.CancelStatusTask;
+import Service.GetFriendsTask;
 import Service.GetStatusTask;
+import Service.MeetMeClient;
+import Service.UpdateStatusTask;
 import Service.User;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,13 +29,20 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.facebook.Request;
+import com.facebook.Request.GraphUserListCallback;
+import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
 
 public class MainMenuActivity extends ActionBarActivity {
 
 	private Button statusSetButton;
 	private Button statusCancelButton;
+	private Button friendListButton;
 
 	
 	@Override
