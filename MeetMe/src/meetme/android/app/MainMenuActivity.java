@@ -124,10 +124,10 @@ public class MainMenuActivity extends ActionBarActivity {
     	StatusResult result = cacheService.getLastStatus();
     	
 
-    	if(result != null) 
+    	if(result.statusSet) 
     	{
     		Log.i("MainMenuActivity", "using cached status");
-    		if(result.statusSet)
+    		if(result.user != null)
     		{
     			Log.i("MainMenuActivity", "status: comment: "+result.user.getComment() + 
 						", from: "+ result.user.getFrom().toString() +
@@ -174,8 +174,7 @@ public class MainMenuActivity extends ActionBarActivity {
     	if(user != null)
     	{	
     		statusSetButton.setVisibility(View.INVISIBLE);
-    		statusCancelButton.setVisibility(View.VISIBLE);
-    		
+    		statusCancelButton.setVisibility(View.VISIBLE);    		
 
     		showUserInfo(user);
     	}
@@ -183,6 +182,7 @@ public class MainMenuActivity extends ActionBarActivity {
     	{
     		statusSetButton.setVisibility(View.VISIBLE);
     		statusCancelButton.setVisibility(View.INVISIBLE);
+    		findViewById(R.id.status).setVisibility(View.INVISIBLE);
     	}
     }
     

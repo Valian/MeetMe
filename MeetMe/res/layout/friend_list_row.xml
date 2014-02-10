@@ -16,8 +16,7 @@
             android:id="@+id/thumbnail"
             android:layout_width="50dip"
             android:layout_height="50dip"
-            android:contentDescription="@string/person_image_content"   
-            android:src="@drawable/ic_launcher"         
+            android:contentDescription="@string/person_image_content"  
             />
  
     </LinearLayout>

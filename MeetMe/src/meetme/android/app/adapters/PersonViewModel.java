@@ -31,7 +31,7 @@ public class PersonViewModel {
 			Long duration = meetMeUser.getTo().getTime() - meetMeUser.getFrom().getTime();
 			String  durationStr = milisecondsToTimeString(duration);
 			availabilityInfo = 
-					available_in+" "+untilStartStr + " "+
+					available_in+" "+untilStartStr + "&#10"+
 					available_for+" "+durationStr;
 					
 		} else { //already available
