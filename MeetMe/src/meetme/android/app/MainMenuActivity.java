@@ -129,6 +129,7 @@ public class MainMenuActivity extends ActionBarActivity {
     	{
     		Log.i("MainMenuActivity", "using cached status");
 
+    		if(result.user != null)
     		{
     			Log.i("MainMenuActivity", "status: comment: "+result.user.getComment() + 
 						", from: "+ result.user.getFrom().toString() +

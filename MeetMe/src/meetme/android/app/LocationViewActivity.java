@@ -124,8 +124,6 @@ GooglePlayServicesClient.OnConnectionFailedListener
 		        
 				for(PersonMapMarker person : friendList)
 				{
-					
-					
 
 			        map.addMarker(new MarkerOptions()
 			                .title(person.name)
