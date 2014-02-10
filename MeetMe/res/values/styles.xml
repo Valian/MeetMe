@@ -24,7 +24,7 @@
    <style name="BodyContainer">
         <item name="android:layout_width">match_parent</item>
 	    <item name="android:layout_height">match_parent</item>
-	    <item name="android:background">@color/purple</item>
+	    <item name="android:background">@color/background</item>
    </style>
    
    <style name="BodyLinearLayout" parent="BodyContainer">
@@ -89,7 +89,7 @@
    
    <style name="BigButton">
        <item name="android:background">@color/darkPurple</item>
-       <item name="android:layout_width">wrap_content</item>
+       <item name="android:layout_width">match_parent</item>
        <item name="android:layout_height">wrap_content</item>
 	   <item name="android:textColor">@color/gold</item>
 	   <item name="android:padding">50dp</item>
