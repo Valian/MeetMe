@@ -9,15 +9,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         
-        <TextView
-        android:id="@+id/user_name"
-        android:text="@string/user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>        	
-    	
+        <include
+	    android:id="@+id/status" 
+	    android:visibility="invisible"
+	    layout="@layout/friend_list_row" />  
         
-
-        
+                
         <Button
 	    android:id="@+id/statusSetButton"
 	    android:layout_gravity="center_horizontal"
@@ -29,15 +26,7 @@
 	    android:layout_gravity="center_horizontal"
 	    android:text="@string/dont_want_to_meet"
 	    style="@style/DontWantToMeetButton"  />
-        
-	    <!-- <Button
-	       	android:id="@+id/friendListButton"
-	    	android:text="@string/who_wants_to_meet"
-		    android:layout_gravity="center_horizontal"
-		    android:layout_marginTop="50dp"	    
-	    	style="@style/BigButton"
-	    /> -->
-	    
+       	    
 	    <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"

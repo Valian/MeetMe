@@ -1,48 +1,31 @@
 package meetme.android.app;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import meetme.android.app.MeetMeCacheService.MeetMeCacheBinder;
 import meetme.android.app.MeetMeCacheService.StatusReceivedListener;
-import meetme.android.app.MeetMeCacheService.StatusResult;
-import meetme.android.app.R.style;
-
+import meetme.android.app.adapters.PersonViewModel;
+import meetme.android.core.ImageLoader;
 import Service.CancelStatusTask;
-import Service.GetFriendsTask;
-import Service.GetStatusTask;
-import Service.MeetMeClient;
-import Service.UpdateStatusTask;
 import Service.User;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.Request;
-import com.facebook.Request.GraphUserListCallback;
 import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 
 public class MainMenuActivity extends ActionBarActivity {
@@ -136,8 +119,10 @@ public class MainMenuActivity extends ActionBarActivity {
 
     private void getStatus()
     {
+
     	StatusResult result = cacheService.getLastStatus();
     	
+
     	if(result != null) 
     	{
     		Log.i("MainMenuActivity", "using cached status");
@@ -162,6 +147,7 @@ public class MainMenuActivity extends ActionBarActivity {
 			@Override
 			public void call(User user) {
 				
+
 				if(user != null)
 				{
 					Log.i("status", 
@@ -189,7 +175,8 @@ public class MainMenuActivity extends ActionBarActivity {
     		statusSetButton.setVisibility(View.INVISIBLE);
     		statusCancelButton.setVisibility(View.VISIBLE);
     		
-    		//TODO wyswietlic status
+
+    		showUserInfo(user);
     	}
     	else
     	{
@@ -198,6 +185,42 @@ public class MainMenuActivity extends ActionBarActivity {
     	}
     }
     
+	private void showUserInfo(final User user) {
+		final TextView name = (TextView)findViewById(R.id.name);	
+		final TextView availability = (TextView)findViewById(R.id.availabilityInfo);	
+		final TextView comment = (TextView)findViewById(R.id.comment);	
+		final ImageView thumbnail = (ImageView)findViewById(R.id.thumbnail);	
+		
+		if(name == null || availability == null || comment == null || thumbnail == null)
+			return;
+		
+		Session fbSession = Session.getActiveSession();
+		
+		if(fbSession == null) return;
+		
+		Request request = Request.newMeRequest(fbSession, new Request.GraphUserCallback() {
+			
+			@Override
+			public void onCompleted(GraphUser fbUser, Response response) {
+				
+				if(user != null && fbUser != null)
+				{
+					PersonViewModel vm = new PersonViewModel(user, fbUser, getString(R.string.available_in),  getString(R.string.available_for), getString(R.string.available_already));
+					name.setText(vm.name);
+					comment.setText(vm.comment);
+					availability.setText(vm.availabilityInfo);					
+					
+					ImageLoader imageLoader = new ImageLoader(getBaseContext());
+					imageLoader.DisplayImage(vm.thumbnailURL, thumbnail);
+					
+					findViewById(R.id.status).setVisibility(View.VISIBLE);
+				}				
+			}
+		});
+		
+		request.executeAsync();
+	}
+
 	@Override
 	protected void onStart() {
 		super.onStart();
