@@ -74,7 +74,7 @@ public class MeetMeCacheService extends Service{
     	if(!statusRequestSent)
     	{
     		statusRequestSent = true;
-    		
+    		int x = 0;
 	    	String facebookToken = Session.getActiveSession().getAccessToken();
 	    	
 	    	new GetStatusTask() {

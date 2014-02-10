@@ -170,31 +170,6 @@ public class FriendListActivity extends ActionBarActivity {
 		}
      	
 		return result;
-     	/*
-		Request friendRequest = Request.newMyFriendsRequest(session, 
- 	            new Request.GraphUserListCallback(){
- 	                @Override
- 	                public void onCompleted(List<GraphUser> facebookUsers,
- 	                        Response response) {           
- 	                    for(User meetMeUser : meetMeUsers)
- 	                    {
- 	                    	PersonViewModel person = meetMeUserToPersonViewModel(meetMeUser, facebookUsers);
- 	                    	if(person != null)
- 	                    	{
- 	                    		Log.i("FriendListActivity", "meetMeUser id matches person: "+person.name);
- 	                    		result.add(person);   
- 	                    	}
- 	                    	else
- 	                    		Log.w("FriendListActivity", "meetMeUser id matches no facebook id");
- 	                    	
- 	                    }	
- 	                }
- 	    });
- 	    Bundle params = new Bundle();
- 	    //params.putString("fields", "id, name, picture");
- 	    params.putString("fields", "id, name, picture");
- 	    friendRequest.setParameters(params);
- 	    friendRequest.executeAndWait();*/
 	}
 
 	private PersonViewModel meetMeUserToPersonViewModel(User meetMeUser, List<GraphUser> facebookUsers)

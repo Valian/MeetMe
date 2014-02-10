@@ -71,14 +71,7 @@ public class MainMenuActivity extends ActionBarActivity {
 				
 			}
 		});
-		
-		/*friendListButton = (Button) findViewById(R.id.friendListButton);	
-		friendListButton.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v){
-				openFriends();
-			}
-		});*/
+
 		
 		Intent intent = new Intent(this, MeetMeCacheService.class);
         bindService(intent, cacheServiceConnection, Context.BIND_AUTO_CREATE);
@@ -123,11 +116,10 @@ public class MainMenuActivity extends ActionBarActivity {
 
     	StatusResult result = cacheService.getLastStatus();
     	
-
-    	if(result != null) 
+    	if(result.statusSet) 
     	{
     		Log.i("MainMenuActivity", "using cached status");
-    		if(result.statusSet)
+    		if(result.user != null)
     		{
     			Log.i("MainMenuActivity", "status: comment: "+result.user.getComment() + 
 						", from: "+ result.user.getFrom().toString() +

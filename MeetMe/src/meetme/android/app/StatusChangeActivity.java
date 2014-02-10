@@ -210,7 +210,7 @@ public class StatusChangeActivity extends ActionBarActivity {
 		new UpdateStatusTask() {
 			@Override
 		    protected void onPostExecute(Boolean result) {     
-		    	Log.i("Update Status result", result.toString());
+		    	//Log.i("Update Status result", result.toString());
 		    	
 		    	Intent intent = new Intent(StatusChangeActivity.this, MainMenuActivity.class);
 				startActivity(intent);
