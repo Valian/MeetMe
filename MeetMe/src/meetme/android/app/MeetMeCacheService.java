@@ -74,6 +74,11 @@ public class MeetMeCacheService extends Service{
     	if(!statusRequestSent)
     	{
     		statusRequestSent = true;
+    		if(Session.getActiveSession() == null || !Session.getActiveSession().isOpened())
+    		{
+    			Log.i("MeetMeCacheService", "inactive facebook session");
+    			return;		
+    		}
     		
 	    	String facebookToken = Session.getActiveSession().getAccessToken();
 	    	
@@ -124,8 +129,14 @@ public class MeetMeCacheService extends Service{
     	
     	friendListCallbacks.add(callback);
     	
-    	if(!friendListRequestSent)
+    	if(!friendListRequestSent) 
     	{
+    		if(Session.getActiveSession() == null || !Session.getActiveSession().isOpened())
+    		{
+    			Log.i("MeetMeCacheService", "inactive facebook session");
+    			return;		
+    		}
+    		
     		friendListRequestSent = true;
     		meetMeUsersReceived = false;
     		facebookUsersReceived = false;

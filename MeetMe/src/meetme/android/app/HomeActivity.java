@@ -57,6 +57,10 @@ public class HomeActivity extends FragmentActivity {
 		Intent intent = new Intent(HomeActivity.this, MainMenuActivity.class);
 		startActivity(intent);
 	}
-
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+	    
+	}	
 
 }

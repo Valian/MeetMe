@@ -2,19 +2,23 @@
 <resources>
     
     <!-- description colors -->
-    <color name="white">#FFFFFF</color>
+    <!-- <color name="text">#B26889</color> -->
+    <color name="text">#222222</color>
     
-    <color name="background">#3B123B</color>
-    <color name="darkPurple">#240B24</color>
+    <color name="background">#EEEEEE</color>
+    <color name="darkPurple">#27B22E</color>
     
-    <color name="gold">#EBEB17</color>
-    <color name="lightYellow">#FFFF66</color>
+    <!-- <color name="buttonText">#CC3F83</color> -->
+    <color name="buttonText">#222222</color>
+    
+    <color name="lightYellow">#222222</color>
     
     <color name="red">#D43F3F</color>
-    <color name="lightRed">#FF6666</color>
+    <color name="lightRed">#CCA13D</color>
     
-    <color name="lightGreen">#66FF66</color>
+    <color name="lightGreen">#27B22E</color>
     <!-- functional colors -->
     
+    <color name="spinnerBackground">#71F05C</color>
     
 </resources>
