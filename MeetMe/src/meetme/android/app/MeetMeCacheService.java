@@ -54,10 +54,22 @@ public class MeetMeCacheService extends Service{
     /**************** Status calls *****************/
     private Boolean statusRequestSent = false;
     private ArrayList<StatusReceivedListener> statusCallbacks = new ArrayList<StatusReceivedListener>();
-    private User userStatus;
+    private User userStatus = null;
+    private boolean userStatusCached = false;
     
-    public User getLastStatus()    {
-    	return userStatus;
+    public class StatusResult {
+    	User user;
+    	boolean statusSet;
+    	
+    	public StatusResult(User user,	boolean statusSet){
+    		this.user = user;
+    		this.statusSet = statusSet;
+    	}
+    }
+    
+    /** returns true if the status is cached **/
+    public StatusResult getLastStatus()    {
+    	return new StatusResult(userStatus, userStatusCached);
     }
     
     public void getStatus(StatusReceivedListener callback) {
@@ -75,6 +87,7 @@ public class MeetMeCacheService extends Service{
 			    protected void onPostExecute(User result) {   
 					statusRequestSent = false;
 					userStatus = result;
+					userStatusCached = true;
 			    	for(StatusReceivedListener callback : statusCallbacks)
 			    	{
 			    		if(callback != null) callback.call(result);

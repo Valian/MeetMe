@@ -8,6 +8,7 @@ import java.util.List;
 
 import meetme.android.app.MeetMeCacheService.MeetMeCacheBinder;
 import meetme.android.app.MeetMeCacheService.StatusReceivedListener;
+import meetme.android.app.MeetMeCacheService.StatusResult;
 import meetme.android.app.R.style;
 
 import Service.CancelStatusTask;
@@ -48,7 +49,7 @@ public class MainMenuActivity extends ActionBarActivity {
 
 	private Button statusSetButton;
 	private Button statusCancelButton;
-	private Button friendListButton;
+	//private Button friendListButton;
 
 	private SplashScreenFragment splashScreen = new SplashScreenFragment();
 	
@@ -135,17 +136,25 @@ public class MainMenuActivity extends ActionBarActivity {
 
     private void getStatus()
     {
-    	User user = cacheService.getLastStatus();
+    	StatusResult result = cacheService.getLastStatus();
     	
-    	if(user != null) 
-    		updateDisplay(user);
+    	if(result != null) 
+    	{
+    		Log.i("MainMenuActivity", "using cached status");
+    		if(result.statusSet)
+    		{
+    			Log.i("MainMenuActivity", "status: comment: "+result.user.getComment() + 
+						", from: "+ result.user.getFrom().toString() +
+						", to: " + result.user.getTo().toString());
+    		}
+    		updateDisplay(result.user);
+    	}
     	else
     	{
     		getSupportFragmentManager()
 	        .beginTransaction()
 	        .add(android.R.id.content, splashScreen)
 	        .commit();
-    		
     	}
     	
     	cacheService.getStatus(new StatusReceivedListener() {
@@ -153,10 +162,13 @@ public class MainMenuActivity extends ActionBarActivity {
 			@Override
 			public void call(User user) {
 				
-				Log.i("status", 
+				if(user != null)
+				{
+					Log.i("status", 
 						"received status: comment: "+user.getComment() + 
 						", from: "+ user.getFrom().toString() +
 						", to: " + user.getTo().toString());
+				}
 				
 				updateDisplay(user);
 		    	
