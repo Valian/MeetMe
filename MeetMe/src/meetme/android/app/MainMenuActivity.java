@@ -2,6 +2,7 @@ package meetme.android.app;
 
 import meetme.android.app.MeetMeCacheService.MeetMeCacheBinder;
 import meetme.android.app.MeetMeCacheService.StatusReceivedListener;
+import meetme.android.app.MeetMeCacheService.StatusResult;
 import meetme.android.app.adapters.PersonViewModel;
 import meetme.android.core.ImageLoader;
 import Service.CancelStatusTask;
