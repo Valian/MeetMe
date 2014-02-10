@@ -7,7 +7,6 @@ import java.util.List;
 
 import meetme.android.app.MeetMeCacheService.FriendListReceivedListener;
 import meetme.android.app.MeetMeCacheService.MeetMeCacheBinder;
-import meetme.android.app.adapters.PersonMapMarker;
 import meetme.android.app.adapters.PersonViewModel;
 import meetme.android.core.GooglePlayConnector;
 import Service.User;
