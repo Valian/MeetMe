@@ -1,23 +1,12 @@
 package meetme.android.app;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.xml.parsers.*;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.model.GraphUser;
-
+import meetme.android.app.adapters.FriendLazyAdapter;
+import meetme.android.app.adapters.PersonViewModel;
 import Service.GetFriendsTask;
 import Service.User;
 import android.content.ComponentName;
@@ -32,16 +21,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.ListView;
 
-import meetme.android.app.MeetMeCacheService.MeetMeCacheBinder;
-import meetme.android.app.adapters.FriendLazyAdapter;
-import meetme.android.app.adapters.PersonViewModel;
-import meetme.android.core.*;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.model.GraphUser;
 import meetme.android.core.dialogs.TimePickerButton;
 
 public class FriendListActivity extends ActionBarActivity {
+
 
 	private ListView friendListView;
 	
@@ -49,6 +38,7 @@ public class FriendListActivity extends ActionBarActivity {
 	private Boolean bound;
 	private MeetMeCacheService cacheService;
 	private ServiceConnection mConnection = new ServiceConnection() {
+
 
         @Override
         public void onServiceConnected(ComponentName className,
@@ -74,8 +64,8 @@ public class FriendListActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_friend_list);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		
-		
+
+
 		Intent intent = new Intent(this, MeetMeCacheService.class);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 		
@@ -91,18 +81,13 @@ public class FriendListActivity extends ActionBarActivity {
 				 
 				 
 				ArrayList<PersonViewModel> friendList = new ArrayList<PersonViewModel>();
-				populateFriendList(meetMeUsers, friendList);
-
-				friendList.add(new PersonViewModel("stefan", "blabla", "niedlugo", ""));
-				 
-				FriendLazyAdapter adapter=new FriendLazyAdapter(FriendListActivity.this, friendList);
-				friendListView = (ListView)findViewById(R.id.friendListView);
-				friendListView.setAdapter(adapter);
 				        
+				
+				FriendLazyAdapter adapter = new FriendLazyAdapter(FriendListActivity.this, friendList);
+  				friendListView = (ListView)findViewById(R.id.friendListView);
+  				friendListView.setAdapter(adapter);
 			 }
-		}.execute(facebookToken);*/
-		
-		
+		}.execute(facebookToken);		
 	}
 	
 	
@@ -131,7 +116,7 @@ public class FriendListActivity extends ActionBarActivity {
 	    }
 	}
 	
-	private void populateFriendList(final List<User> meetMeUsers, final List<PersonViewModel> result) {
+	
 			
 		
 		Session session = Session.getActiveSession();
@@ -140,15 +125,7 @@ public class FriendListActivity extends ActionBarActivity {
  	            new Request.GraphUserListCallback(){
  	                @Override
  	                public void onCompleted(List<GraphUser> facebookUsers,
- 	                        Response response) {
- 	                    
- 	                	/*String string = "";
- 	                	for(GraphUser user : facebookUsers)
- 	                	{
- 	                		string += user.getId() + " ";
- 	                	}
- 	                	Log.i("FriendListActivity", "facebook users received: "+string);*/
- 	                	
+ 	                        Response response) {           
  	                    for(User meetMeUser : meetMeUsers)
  	                    {
  	                    	PersonViewModel person = meetMeUserToPersonViewModel(meetMeUser, facebookUsers);
@@ -160,14 +137,14 @@ public class FriendListActivity extends ActionBarActivity {
  	                    	else
  	                    		Log.w("FriendListActivity", "meetMeUser id matches no facebook id");
  	                    	
- 	                    }
+ 	                    }	
  	                }
  	    });
  	    Bundle params = new Bundle();
  	    //params.putString("fields", "id, name, picture");
  	    params.putString("fields", "id, name, picture");
  	    friendRequest.setParameters(params);
- 	    friendRequest.executeAsync();
+ 	    friendRequest.executeAndWait();
 	}
 
 	private PersonViewModel meetMeUserToPersonViewModel(User meetMeUser, List<GraphUser> facebookUsers)
@@ -222,27 +199,4 @@ public class FriendListActivity extends ActionBarActivity {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
-	/*private List<GraphUser> getFriends(){
-    Request friendRequest = Request.newMyFriendsRequest(session, 
-					 	            new GraphUserListCallback(){
-					 	                @Override
-					 	                public void onCompleted(List<GraphUser> users,
-					 	                        Response response) {
-					 	                    
-					 	                    for(GraphUser user : users)
-					 	                    {
-					 	                    	Log.i("INFO", user.getName());
-					 	                    	
-					 	                    }
-					 	                }
-					 	        });
-					 	        Bundle params = new Bundle();
-					 	        //params.putString("fields", "id, name, first_name, last_name");
-					 	        params.putString("fields", "id, name");
-					 	        friendRequest.setParameters(params);
-					 	        friendRequest.executeAsync();
-	}*/
-
 }

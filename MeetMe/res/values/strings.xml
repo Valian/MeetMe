@@ -38,7 +38,7 @@
     <string name="available_in">Available in</string>
     <string name="available_for">Available for</string>
     
-    
+    <string name="person_image_content">Picture</string>
     <!--  map  -->
     <string name="title_activity_location_view">Friends\' locations</string>
     
