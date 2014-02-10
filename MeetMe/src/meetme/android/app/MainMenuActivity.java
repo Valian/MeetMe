@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import meetme.android.app.MeetMeCacheService.MeetMeCacheBinder;
+import meetme.android.app.MeetMeCacheService.StatusReceivedListener;
 import meetme.android.app.R.style;
 
 import Service.CancelStatusTask;
@@ -14,12 +16,16 @@ import Service.GetStatusTask;
 import Service.MeetMeClient;
 import Service.UpdateStatusTask;
 import Service.User;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -44,6 +50,7 @@ public class MainMenuActivity extends ActionBarActivity {
 	private Button statusCancelButton;
 	private Button friendListButton;
 
+	private SplashScreenFragment splashScreen = new SplashScreenFragment();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +63,6 @@ public class MainMenuActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v){
 				Intent intent = new Intent(MainMenuActivity.this, StatusChangeActivity.class);
-				//Intent intent = new Intent(MainMenuActivity.this, LocationViewActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -89,6 +95,9 @@ public class MainMenuActivity extends ActionBarActivity {
 			}
 		});*/
 		
+		Intent intent = new Intent(this, MeetMeCacheService.class);
+        bindService(intent, cacheServiceConnection, Context.BIND_AUTO_CREATE);
+        
 	}
 	
 	public void reloadActivity() {
@@ -102,54 +111,98 @@ public class MainMenuActivity extends ActionBarActivity {
 	    startActivity(intent);
 	}
 	
-	@Override
-	protected void onStart() {
-		super.onStart();
-		
-		Session session = Session.getActiveSession();
-		if(session == null || !session.isOpened())
-		{
-			backToHome();
-			return;
-		}
-		
-		
-		final SplashScreenFragment splashScreen = new SplashScreenFragment();
-		 getSupportFragmentManager()
+	private Boolean bound;
+	private MeetMeCacheService cacheService;
+	private ServiceConnection cacheServiceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                IBinder service) {
+        	Log.i("MainMenuActivity", "connected to MeetMeCacheService");
+        	MeetMeCacheBinder binder = (MeetMeCacheBinder) service;
+        	cacheService = binder.getService();
+        	bound = true;
+        	
+        	getStatus();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+        	Log.w("MainMenuActivity", "disconnected from MeetMeCacheService");
+        	bound = false;
+        }
+    };
+
+    private void getStatus()
+    {
+    	User user = cacheService.getLastStatus();
+    	
+    	if(user != null) 
+    		updateDisplay(user);
+    	else
+    	{
+    		getSupportFragmentManager()
 	        .beginTransaction()
 	        .add(android.R.id.content, splashScreen)
 	        .commit();
+    		
+    	}
+    	
+    	cacheService.getStatus(new StatusReceivedListener() {
 
-		new GetStatusTask() {
 			@Override
-		    protected void onPostExecute(User result) {     
-		    			    	
-		    	//if status set
-		    	if(result != null)
-		    	{
-		    		Log.i("status", 
-		    				"received status: comment: "+result.getComment() + 
-		    				", from: "+ result.getFrom().toString() +
-		    				", to: " + result.getTo().toString());
-		    		
-		    		statusSetButton.setVisibility(View.INVISIBLE);
-		    		statusCancelButton.setVisibility(View.VISIBLE);
-		    		
-		    		//TODO wyswietlic status
-
-		    	}
-		    	else
-		    	{
-		    		statusSetButton.setVisibility(View.VISIBLE);
-		    		statusCancelButton.setVisibility(View.INVISIBLE);
-		    	}
+			public void call(User user) {
+				
+				Log.i("status", 
+						"received status: comment: "+user.getComment() + 
+						", from: "+ user.getFrom().toString() +
+						", to: " + user.getTo().toString());
+				
+				updateDisplay(user);
 		    	
 		    	getSupportFragmentManager()
 		        .beginTransaction()
 		        .remove(splashScreen)
 		        .commit();
-		    }
-		}.execute(session.getAccessToken());
+				
+			}
+    		
+    	});
+    }
+    
+    private void updateDisplay(User user)
+    {
+    	if(user != null)
+    	{	
+    		statusSetButton.setVisibility(View.INVISIBLE);
+    		statusCancelButton.setVisibility(View.VISIBLE);
+    		
+    		//TODO wyswietlic status
+    	}
+    	else
+    	{
+    		statusSetButton.setVisibility(View.VISIBLE);
+    		statusCancelButton.setVisibility(View.INVISIBLE);
+    	}
+    }
+    
+	@Override
+	protected void onStart() {
+		super.onStart();
+		
+		Session session = Session.getActiveSession();
+		if(session == null || !session.isOpened()) {
+			backToHome();
+			return;
+		}
+		
+		
+	}
+	
+	@Override
+	protected void onDestroy(){
+		unbindService(cacheServiceConnection);
+		super.onDestroy();
 	}
 	
 	private void backToHome()
@@ -157,97 +210,7 @@ public class MainMenuActivity extends ActionBarActivity {
 		Intent intent = new Intent(MainMenuActivity.this, HomeActivity.class);
 		startActivity(intent);
 	}
-	
-	public void Init()
-	{
-		//todo - pobrac status i ustalic styl buttona
-		//
-		//
-		
-		
 
-		
-		/*
-		// start Facebook Login
-		Session.openActiveSession(this, true, new Session.StatusCallback() {
-		
-		
-		  // callback when session changes state
-		  @Override
-		  public void call(final Session session, SessionState state, Exception exception) {
-			  if (session.isOpened()) 
-			  {	 
-			        Request.newMeRequest(session, new Request.GraphUserCallback() 
-			        {
-			        	
-				          @Override 
-				          public void onCompleted(GraphUser user, Response response) 
-				          {
-				        	 
-				        	  
-						     //if (user != null)
-						     if (false)
-						     {
-						    	  TextView label = (TextView) findViewById(R.id.user_name); 
-					        	  label.setText(user.getName());
-						         
-						         User tempUser = new User();
-						         tempUser.setComment("haha gowno dziaua");
-						         tempUser.setLatitude(152.0);
-						         tempUser.setLongitude(123.0);
-						         tempUser.setFrom(new Date(2013, 12, 11));
-						         tempUser.setTo(new Date(2013, 12, 11));
-						         
-						         new GetStatusTask(){
-						        	 @Override 
-						        	 protected void onPostExecute(User result) {
-						        		 Log.i("Get Status id", result.getFacebookId().toString());
-						        	 }
-						         }.execute(session.getAccessToken());
-						         
-						         new GetFriendsTask(){
-						        	 @Override 
-						        	 protected void onPostExecute(ArrayList<User> result) {
-						        		 for(User user : result)
-						        		 {
-						        			 Log.i("userinfo:", user.getFacebookId().toString());
-						        		 }
-						        			 
-						        	 }
-						         }.execute(session.getAccessToken());
-						         
-						         
-						      }
-						  }
-			        }).executeAsync();		  			
-			  } 
-		   }		  
-		});*/
-		
-		  
-		//snippet to get android hash key
-		/*PackageInfo info;
-		try {
-		    info = getPackageManager().getPackageInfo("meetme.android.app", PackageManager.GET_SIGNATURES);
-		    for (Signature signature : info.signatures) {
-		        MessageDigest md;
-		        md = MessageDigest.getInstance("SHA");
-		        md.update(signature.toByteArray());
-		        String something = new String(Base64.encode(md.digest(), 0));
-		        //String something = new String(Base64.encodeBytes(md.digest()));
-		        Log.e("hash key", something);
-		    }
-		} catch (NameNotFoundException e1) {
-		    Log.e("name not found", e1.toString());
-		} catch (NoSuchAlgorithmException e) {
-		    Log.e("no such an algorithm", e.toString());
-		} catch (Exception e) {
-		    Log.e("exception", e.toString());
-		}*/
-	}
-
-	
-	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -288,5 +251,25 @@ public class MainMenuActivity extends ActionBarActivity {
 		startActivity(intent);
 	}
 	
+	
+	//snippet to get android hash key
+			/*PackageInfo info;
+			try {
+			    info = getPackageManager().getPackageInfo("meetme.android.app", PackageManager.GET_SIGNATURES);
+			    for (Signature signature : info.signatures) {
+			        MessageDigest md;
+			        md = MessageDigest.getInstance("SHA");
+			        md.update(signature.toByteArray());
+			        String something = new String(Base64.encode(md.digest(), 0));
+			        //String something = new String(Base64.encodeBytes(md.digest()));
+			        Log.e("hash key", something);
+			    }
+			} catch (NameNotFoundException e1) {
+			    Log.e("name not found", e1.toString());
+			} catch (NoSuchAlgorithmException e) {
+			    Log.e("no such an algorithm", e.toString());
+			} catch (Exception e) {
+			    Log.e("exception", e.toString());
+			}*/
 
 }

@@ -31,13 +31,15 @@ public class HomeActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.activity_main_menu);
 
+		Intent intent = new Intent(this, MeetMeCacheService.class);
+		startService(intent);
+		
 		Session session = Session.getActiveSession();
 		if(session != null && session.isOpened())
 		{
-			Log.i("else", "else");
+			Log.i("HomeActivity", "logged in, redirecting to MainMenuActivity...");
 			openMainMenu();
-			
-		}
+					}
 		else
 		{
 
@@ -47,9 +49,8 @@ public class HomeActivity extends FragmentActivity {
 		        logInFragment.setLoggedInListener(new LogInFragment.LoggedInListener() {
 					@Override
 					public void call() {	
-						Log.i("call", "call");
-						openMainMenu();
-						
+						Log.i("HomeActivity", "logged in, redirecting to MainMenuActivity...");
+						openMainMenu();	
 					}	        
 		        });
 		        

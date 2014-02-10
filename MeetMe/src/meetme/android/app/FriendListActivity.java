@@ -20,8 +20,14 @@ import com.facebook.model.GraphUser;
 
 import Service.GetFriendsTask;
 import Service.User;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -29,6 +35,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ListView;
 
+import meetme.android.app.MeetMeCacheService.MeetMeCacheBinder;
 import meetme.android.app.adapters.FriendLazyAdapter;
 import meetme.android.app.adapters.PersonViewModel;
 import meetme.android.core.*;
@@ -36,36 +43,44 @@ import meetme.android.core.dialogs.TimePickerButton;
 
 public class FriendListActivity extends ActionBarActivity {
 
-	public static final String KEY_PERSON = "person"; //parent node
-	public static final String KEY_ID = "id";
-	public static final String KEY_NAME = "name";
-	public static final String KEY_COMMENT = "comment";
-	public static final String KEY_AVAILABILITY = "availability";
-	public static final String KEY_THUMB_URL = "thumb_url";
-	
-
 	private ListView friendListView;
 	
+	
+	private Boolean bound;
+	private MeetMeCacheService cacheService;
+	private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+        	MeetMeCacheBinder binder = (MeetMeCacheBinder) service;
+        	cacheService = binder.getService();
+        	bound = true;
+        	
+        	//Log.i("number", String.valueOf(cacheService.getNumber()));
+        	
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+        	bound = false;
+        }
+    };
+    
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_friend_list);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
-		/*DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder;
-		Document doc;
-		*/
-		/*try {
-			docBuilder = docBuilderFactory.newDocumentBuilder();
-			//doc = docBuilder.parse(getResources().openRawResource(R.layout.friend_list_row) );
-			XmlResourceParser parser = getResources().getLayout(R.layout.friend_list_row);
-			//open("friend_list_row.xml")
-		} catch (Exception e) {
-			e.printStackTrace();
-			return;
-		}*/
-		String facebookToken = Session.getActiveSession().getAccessToken();	
+		
+		Intent intent = new Intent(this, MeetMeCacheService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+		
+		
+		/*String facebookToken = Session.getActiveSession().getAccessToken();	
 		new GetFriendsTask() {
 			 protected void onPostExecute(ArrayList<User> meetMeUsers) {
 				 
@@ -73,22 +88,29 @@ public class FriendListActivity extends ActionBarActivity {
 					 Log.i("Get Friends result", "id:"+user.getFacebookId()+" "+ user.getComment().toString());
 				 }
 				 
+				 
+				 
 				ArrayList<PersonViewModel> friendList = new ArrayList<PersonViewModel>();
 				populateFriendList(meetMeUsers, friendList);
 
-				//friendList.add(new PersonViewModel("stefan", "blabla", "niedlugo", ""));
+				friendList.add(new PersonViewModel("stefan", "blabla", "niedlugo", ""));
 				 
-				/*FriendLazyAdapter adapter=new FriendLazyAdapter(FriendListActivity.this, friendList);
+				FriendLazyAdapter adapter=new FriendLazyAdapter(FriendListActivity.this, friendList);
 				friendListView = (ListView)findViewById(R.id.friendListView);
-				friendListView.setAdapter(adapter);*/
+				friendListView.setAdapter(adapter);
 				        
 			 }
-		}.execute(facebookToken);
+		}.execute(facebookToken);*/
 		
 		
 	}
 	
 	
+	@Override
+	protected void onStart()	{
+		super.onStart();
+		
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -110,6 +132,7 @@ public class FriendListActivity extends ActionBarActivity {
 	}
 	
 	private void populateFriendList(final List<User> meetMeUsers, final List<PersonViewModel> result) {
+			
 		
 		Session session = Session.getActiveSession();
 		

@@ -71,7 +71,8 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyAoh8Jb_RwPFSsGgIED2XS99IjkOI4oZPY" />
    
-
+		<service android:name=".MeetMeCacheService"/>
+		
     </application>
     
     
