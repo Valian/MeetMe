@@ -29,9 +29,7 @@ public class MeetMeCacheService extends Service{
     public MeetMeCacheService()
     {
     	meetMeBinder = new MeetMeCacheBinder();
-    }
-    
-    
+    }   
     
     public class MeetMeCacheBinder extends Binder{
     	MeetMeCacheService getService() {
@@ -47,9 +45,6 @@ public class MeetMeCacheService extends Service{
     	
         return meetMeBinder;
     }
-
-    
-    
     
     /**************** Status calls *****************/
     private Boolean statusRequestSent = false;
