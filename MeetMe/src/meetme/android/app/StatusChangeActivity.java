@@ -213,6 +213,7 @@ public class StatusChangeActivity extends ActionBarActivity {
 		    	//Log.i("Update Status result", result.toString());
 		    	
 		    	Intent intent = new Intent(StatusChangeActivity.this, MainMenuActivity.class);
+		    	intent.putExtra(MainMenuActivity.REFRESH_KEY, true);
 				startActivity(intent);
 		    }
 		}.execute(Session.getActiveSession().getAccessToken(), user);

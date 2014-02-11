@@ -33,6 +33,9 @@ public class MainMenuActivity extends ActionBarActivity {
 
 	private Button statusSetButton;
 	private Button statusCancelButton;
+	
+	public static final String REFRESH_KEY = "refresh_on_load";
+	private boolean loadingDisplay = false;
 	//private Button friendListButton;
 
 	private SplashScreenFragment splashScreen = new SplashScreenFragment();
@@ -51,6 +54,8 @@ public class MainMenuActivity extends ActionBarActivity {
 				startActivity(intent);
 			}
 		});
+		
+		
 		
 		statusCancelButton = (Button) findViewById(R.id.statusCancelButton);	
 		statusCancelButton.setOnClickListener(new OnClickListener(){
@@ -90,6 +95,7 @@ public class MainMenuActivity extends ActionBarActivity {
 	    Intent intent = getIntent();
 	    overridePendingTransition(0, 0);
 	    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+	    intent.putExtra(REFRESH_KEY, true);
 	    finish();
 
 	    overridePendingTransition(0, 0);
@@ -123,12 +129,17 @@ public class MainMenuActivity extends ActionBarActivity {
 
     	StatusResult result = cacheService.getLastStatus();
     	
-
-
-    	if(result.statusSet) 
+    	Bundle extras = getIntent().getExtras();
+    	getIntent().removeExtra(REFRESH_KEY);
+    	boolean refresh = false;
+    	if (extras != null)  {
+    		refresh = extras.getBoolean(REFRESH_KEY);
+    		Log.i("MainMenuActivity", "refresh parameter received: " + String.valueOf(refresh));
+    	}
+    	
+    	if(result.statusSet && !refresh) 
     	{
     		Log.i("MainMenuActivity", "using cached status");
-
     		if(result.user != null)
     		{
     			Log.i("MainMenuActivity", "status: comment: "+result.user.getComment() + 
@@ -139,6 +150,8 @@ public class MainMenuActivity extends ActionBarActivity {
     	}
     	else
     	{
+    		loadingDisplay = true;
+    		
     		getSupportFragmentManager()
 	        .beginTransaction()
 	        .add(android.R.id.content, splashScreen)
@@ -161,11 +174,14 @@ public class MainMenuActivity extends ActionBarActivity {
 				
 				updateDisplay(user);
 		    	
-		    	getSupportFragmentManager()
-		        .beginTransaction()
-		        .remove(splashScreen)
-		        .commit();
-				
+				if(loadingDisplay){
+					loadingDisplay = false;
+					
+					getSupportFragmentManager()
+			        .beginTransaction()
+			        .remove(splashScreen)
+			        .commit();
+				}
 			}
     		
     	});
@@ -214,9 +230,9 @@ public class MainMenuActivity extends ActionBarActivity {
 					availability.setText(vm.availabilityInfo);					
 					
 					ImageLoader imageLoader = new ImageLoader(getBaseContext());
-					imageLoader.DisplayImage(vm.thumbnailURL, thumbnail);
-					
 					findViewById(R.id.status).setVisibility(View.VISIBLE);
+					
+					imageLoader.DisplayImage(vm.thumbnailURL, thumbnail);
 				}				
 			}
 		});
@@ -240,6 +256,13 @@ public class MainMenuActivity extends ActionBarActivity {
 	@Override
 	protected void onDestroy(){
 		unbindService(cacheServiceConnection);
+		
+		if(loadingDisplay){
+			getSupportFragmentManager()
+	        .beginTransaction()
+	        .remove(splashScreen)
+	        .commit();
+		}
 		super.onDestroy();
 	}
 	
@@ -289,25 +312,8 @@ public class MainMenuActivity extends ActionBarActivity {
 		startActivity(intent);
 	}
 	
-	
-	//snippet to get android hash key
-			/*PackageInfo info;
-			try {
-			    info = getPackageManager().getPackageInfo("meetme.android.app", PackageManager.GET_SIGNATURES);
-			    for (Signature signature : info.signatures) {
-			        MessageDigest md;
-			        md = MessageDigest.getInstance("SHA");
-			        md.update(signature.toByteArray());
-			        String something = new String(Base64.encode(md.digest(), 0));
-			        //String something = new String(Base64.encodeBytes(md.digest()));
-			        Log.e("hash key", something);
-			    }
-			} catch (NameNotFoundException e1) {
-			    Log.e("name not found", e1.toString());
-			} catch (NoSuchAlgorithmException e) {
-			    Log.e("no such an algorithm", e.toString());
-			} catch (Exception e) {
-			    Log.e("exception", e.toString());
-			}*/
-
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+	    
+	}	
 }

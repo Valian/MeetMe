@@ -31,7 +31,7 @@ public class PersonViewModel {
 			Long duration = meetMeUser.getTo().getTime() - meetMeUser.getFrom().getTime();
 			String  durationStr = milisecondsToTimeString(duration);
 			availabilityInfo = 
-					available_in+" "+untilStartStr + "&#10"+
+					available_in+" "+untilStartStr + "\n"+
 					available_for+" "+durationStr;
 					
 		} else { //already available
@@ -45,7 +45,7 @@ public class PersonViewModel {
 		this.name = facebookUser.getName();
 		this.comment = meetMeUser.getComment();
 		this.availabilityInfo = availabilityInfo;
-		this.thumbnailURL = "http://graph.facebook.com/"+facebookUser.getId()+"/picture?type=large";
+		this.thumbnailURL = "http://graph.facebook.com/"+facebookUser.getId()+"/picture?type=normal";
 		
 	}
 
