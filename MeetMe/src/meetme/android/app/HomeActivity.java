@@ -34,7 +34,7 @@ public class HomeActivity extends FragmentActivity {
 		        logInFragment.setLoggedInListener(new LogInFragment.LoggedInListener() {
 					@Override
 					public void call() {	
-						Log.i("HomeActivity", "logged in, redirecting to MainMenuActivity...");
+						Log.i("HomeActivity", "logged in using fragment, redirecting to MainMenuActivity...");
 						openMainMenu();	
 					}	        
 		        });
@@ -57,10 +57,4 @@ public class HomeActivity extends FragmentActivity {
 		Intent intent = new Intent(HomeActivity.this, MainMenuActivity.class);
 		startActivity(intent);
 	}
-	
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-	    
-	}	
-
 }

@@ -155,7 +155,7 @@ public class MainMenuActivity extends ActionBarActivity {
     		getSupportFragmentManager()
 	        .beginTransaction()
 	        .add(android.R.id.content, splashScreen)
-	        .commit();
+	        .commitAllowingStateLoss();
     	}
     	
     	cacheService.getStatus(new StatusReceivedListener() {
@@ -180,7 +180,7 @@ public class MainMenuActivity extends ActionBarActivity {
 					getSupportFragmentManager()
 			        .beginTransaction()
 			        .remove(splashScreen)
-			        .commit();
+			        .commitAllowingStateLoss();
 				}
 			}
     		

@@ -73,13 +73,15 @@ public class MeetMeCacheService extends Service{
     	
     	if(!statusRequestSent)
     	{
-    		statusRequestSent = true;
+    		
+    		Log.i("MainMenuActivity", "getStatusCacheServiceDebug");
     		if(Session.getActiveSession() == null || !Session.getActiveSession().isOpened())
     		{
     			Log.i("MeetMeCacheService", "inactive facebook session");
     			return;		
     		}
     		
+    		statusRequestSent = true;
 	    	String facebookToken = Session.getActiveSession().getAccessToken();
 	    	
 	    	new GetStatusTask() {
