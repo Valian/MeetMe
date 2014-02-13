@@ -151,7 +151,7 @@ public class MeetMeCacheService extends Service{
     			return;		
     		}
     		
-    		statusRequestSent = true;
+    		meetmeStatusRequestSent = true;
 	    	String facebookToken = Session.getActiveSession().getAccessToken();
 	    	
 	    	new GetStatusTask() {
@@ -168,8 +168,8 @@ public class MeetMeCacheService extends Service{
 			    	statusCallbacks.clear();
 			    }
 			}.execute(facebookToken);
-    	}
     }
+
     
     public interface StatusReceivedListener
     {
