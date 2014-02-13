@@ -141,13 +141,12 @@ public class StatusChangeActivity extends ActionBarActivity {
 			@Override
 			public void onConnected(Bundle connectionHint) {
 				location = googlePlayConnector.getLastLocation();
-				Log.i("location", "got location: "+location.toString());
 				if(saving)
 				{
 					updateStatus();
 				}
-				else
-					Log.i("location", "not saving when received location: "+location.toString());
+				//else
+				//	Log.i("location", "not saving when received location: "+location.toString());
 			}
 
 			@Override
@@ -191,30 +190,14 @@ public class StatusChangeActivity extends ActionBarActivity {
 		
 		Calendar calendar = Calendar.getInstance();
 		
-		Date timeFrom = selectedDay;
-		timeFrom.setHours(startTime.GetHours());
-		timeFrom.setMinutes(startTime.GetMinutes());
-		
-		calendar.setTime(timeFrom);
+		calendar.setTime(selectedDay);
+		calendar.add(Calendar.HOUR_OF_DAY, startTime.GetHours());
+		calendar.add(Calendar.MINUTE, startTime.GetMinutes());
+		user.setFrom(calendar.getTime());
 		
 		calendar.add(Calendar.HOUR_OF_DAY, howLong.GetHours());
 		calendar.add(Calendar.MINUTE, howLong.GetMinutes());
-		
-		Date timeTo = calendar.getTime();
-		
-		Log.i("selected day", selectedDay.toString());
-		Log.i("startTime", String.valueOf(startTime.GetHours()) + "h " + String.valueOf(startTime.GetMinutes()));
-		Log.i("howLong", String.valueOf(howLong.GetHours()) + "h " +String.valueOf(howLong.GetMinutes()));
-		
-		/*calendar.add(Calendar.HOUR_OF_DAY, startTime.GetHours());
-		calendar.add(Calendar.MINUTE, startTime.GetMinutes());*/
-		user.setFrom(timeFrom);
-		
-		/*calendar.add(Calendar.HOUR_OF_DAY, howLong.GetHours());
-		calendar.add(Calendar.MINUTE, howLong.GetMinutes());*/	
-		user.setTo(timeTo);
-		
-		Log.i("StatusChangeActivity", "saving new status: from: " + user.getFrom() + ", to: "+ user.getTo());
+		user.setTo(calendar.getTime());
 		
 		user.setLatitude(location.getLatitude());
 		user.setLongitude(location.getLongitude());

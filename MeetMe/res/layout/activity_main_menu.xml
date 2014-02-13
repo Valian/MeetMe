@@ -6,6 +6,7 @@
          
     <Button
 		 android:id="@+id/statusSetButton"
+		 android:visibility="invisible"
 		 android:layout_alignParentTop="true"
 		 android:text="@string/want_to_meet"
 		 style="@style/WantToMeetButton"  />
@@ -13,6 +14,7 @@
     <Button
 		 android:id="@+id/statusCancelButton"
 		 android:layout_alignParentTop="true"
+		 android:visibility="invisible"
 		 android:text="@string/dont_want_to_meet"
 		 style="@style/DontWantToMeetButton"  />  	    
 	
