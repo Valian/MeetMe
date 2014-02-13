@@ -145,17 +145,14 @@ public class FriendListActivity extends ActionBarActivity {
 		for(User meetMeUser : meetMeUsers)
 		{
 			//TODO to kiedys bedzie w serwisie i nie bedziemy dostawac nieaktualnych statusow
-			if(meetMeUser.getTo().after(new Date()))
-			{
-				PersonViewModel person = meetMeUserToPersonViewModel(meetMeUser, facebookUsers);
-		     	if(person != null)
-		     	{
-		     		Log.i("FriendListActivity", "meetMeUser id matches person: "+person.name);
-		     		result.add(person);   
-		     	}
-		     	else
-		     		Log.w("FriendListActivity", "meetMeUser id matches no facebook id");
-			}
+			PersonViewModel person = meetMeUserToPersonViewModel(meetMeUser, facebookUsers);
+	     	if(person != null)
+	     	{
+	     		Log.i("FriendListActivity", "meetMeUser id matches person: " + person.name);
+	     		result.add(person);   
+	     	}
+	     	else
+	     		Log.w("FriendListActivity", "meetMeUser id matches no facebook id");			
 		}
      	
 		return result;     	
@@ -168,8 +165,7 @@ public class FriendListActivity extends ActionBarActivity {
      		if(facebookUser.getId().equals(String.valueOf(meetMeUser.getFacebookId())))
      		{     			
              	return new PersonViewModel(meetMeUser, facebookUser, getString(R.string.available_in),  getString(R.string.available_for), getString(R.string.available_already));
-       		}
-     		
+       		}     		
      	}
 		
 		return null;

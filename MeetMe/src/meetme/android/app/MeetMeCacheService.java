@@ -113,6 +113,10 @@ public class MeetMeCacheService extends Service{
     	}
     }
     
+    public interface StatusReceivedListener
+	{
+		public void call(User user);
+	}
     
     /**************** Meetme Status calls *****************/
     private boolean meetmeStatusRequestSent = false;
@@ -139,7 +143,8 @@ public class MeetMeCacheService extends Service{
     	getStatus(null);
     }
 
-    public void getStatus(StatusReceivedListener callback) {
+    public void getStatus(StatusReceivedListener callback) 
+    {
     	
     	statusCallbacks.add(callback);
     	
@@ -151,7 +156,7 @@ public class MeetMeCacheService extends Service{
     			return;		
     		}
     		
-    		statusRequestSent = true;
+    		meetmeStatusRequestSent = true;
 	    	String facebookToken = Session.getActiveSession().getAccessToken();
 	    	
 	    	new GetStatusTask() {
@@ -168,14 +173,8 @@ public class MeetMeCacheService extends Service{
 			    	statusCallbacks.clear();
 			    }
 			}.execute(facebookToken);
-    	}
     }
-    
-    public interface StatusReceivedListener
-    {
-    	public void call(User user);
-    }
-    
+    	
     
     
     /**************** Friend list calls *****************/

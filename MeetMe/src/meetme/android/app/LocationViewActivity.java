@@ -111,7 +111,7 @@ GooglePlayServicesClient.OnConnectionFailedListener
 			public void call(ArrayList<User> meetMeUsers, List<GraphUser> facebookUsers) {
 				ArrayList<PersonMapMarker> friendList = getPersonMapMarkers(facebookUsers, meetMeUsers);
 				
-				GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.locationMap)).getMap();	     
+				GoogleMap map = ((MapFragment) LocationViewActivity.this.getFragmentManager().findFragmentById(R.id.locationMap)).getMap();	     
 				
 				Location location = googlePlayConnector.getLastLocation();
 		        LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
