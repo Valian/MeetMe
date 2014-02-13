@@ -72,9 +72,7 @@ public class MeetMeCacheService extends Service{
     	statusCallbacks.add(callback);
     	
     	if(!statusRequestSent)
-    	{
-    		
-    		Log.i("MainMenuActivity", "getStatusCacheServiceDebug");
+    	{    		
     		if(Session.getActiveSession() == null || !Session.getActiveSession().isOpened())
     		{
     			Log.i("MeetMeCacheService", "inactive facebook session");
@@ -177,8 +175,6 @@ public class MeetMeCacheService extends Service{
     	 	friendRequest.setParameters(params);
     	 	friendRequest.executeAsync();			
 		}
-
-
     }
     
     private void bothListsReceived()

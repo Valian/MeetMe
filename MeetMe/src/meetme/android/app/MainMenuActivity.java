@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -134,7 +135,7 @@ public class MainMenuActivity extends ActionBarActivity {
     	boolean refresh = false;
     	if (extras != null)  {
     		refresh = extras.getBoolean(REFRESH_KEY);
-    		Log.i("MainMenuActivity", "refresh parameter received: " + String.valueOf(refresh));
+    		//Log.i("MainMenuActivity", "refresh parameter received: " + String.valueOf(refresh));
     	}
     	
     	if(result.statusSet && !refresh) 
@@ -161,18 +162,11 @@ public class MainMenuActivity extends ActionBarActivity {
     	cacheService.getStatus(new StatusReceivedListener() {
 
 			@Override
-			public void call(User user) {
-				
-
-				if(user != null)
-				{
-					Log.i("status", 
-						"received status: comment: "+user.getComment() + 
-						", from: "+ user.getFrom().toString() +
-						", to: " + user.getTo().toString());
-				}
-				
-				updateDisplay(user);
+			public void call(User user) {	
+				if(user != null)				
+					updateDisplay(user);
+				else
+					Toast.makeText(getApplicationContext(), "Connection error", Toast.LENGTH_LONG).show();
 		    	
 				if(loadingDisplay){
 					loadingDisplay = false;
@@ -189,7 +183,9 @@ public class MainMenuActivity extends ActionBarActivity {
     
     private void updateDisplay(User user)
     {
-    	if(user != null)
+    	if(user == null) return;
+    		
+    	if(user.getFacebookId() != null)
     	{	
     		statusSetButton.setVisibility(View.INVISIBLE);
     		statusCancelButton.setVisibility(View.VISIBLE);    		

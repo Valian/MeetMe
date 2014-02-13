@@ -141,13 +141,12 @@ public class StatusChangeActivity extends ActionBarActivity {
 			@Override
 			public void onConnected(Bundle connectionHint) {
 				location = googlePlayConnector.getLastLocation();
-				Log.i("location", "got location: "+location.toString());
 				if(saving)
 				{
 					updateStatus();
 				}
-				else
-					Log.i("location", "not saving when received location: "+location.toString());
+				//else
+				//	Log.i("location", "not saving when received location: "+location.toString());
 			}
 
 			@Override
@@ -191,10 +190,6 @@ public class StatusChangeActivity extends ActionBarActivity {
 		
 		Calendar calendar = Calendar.getInstance();
 		
-		if(selectedDay == null)
-			Log.i("dzien", "nuuuuuul");
-		else
-			Log.i("dzien", selectedDay.toString());
 		calendar.setTime(selectedDay);
 		calendar.add(Calendar.HOUR_OF_DAY, startTime.GetHours());
 		calendar.add(Calendar.MINUTE, startTime.GetMinutes());
