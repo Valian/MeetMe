@@ -138,7 +138,7 @@ public class MainMenuActivity extends ActionBarActivity {
     		//Log.i("MainMenuActivity", "refresh parameter received: " + String.valueOf(refresh));
     	}
     	
-    	if(result.statusSet && !refresh) 
+    	if(result.statusSet && result.user.getFacebookId() != null && !refresh) 
     	{
     		Log.i("MainMenuActivity", "using cached status");
     		if(result.user != null)

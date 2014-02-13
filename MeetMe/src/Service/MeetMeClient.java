@@ -32,7 +32,6 @@ public class MeetMeClient
 	
 	public ArrayList<User> getFriends(String token)
 	{				
-
 		ArrayList<User> users = new ArrayList<User>();
 		int errors = 0;
 		
@@ -46,7 +45,11 @@ public class MeetMeClient
 				ArrayList<Map<String, Object>> friends = ((ArrayList<Map<String, Object>>)((Map<String, Object>)map.get("attributes")).get("friends"));
 				
 				for (Map<String, Object> friendMap : friends) 
-					users.add(convertToUser(friendMap));		
+				{
+					User meetMeUser = convertToUser(friendMap);
+					if(meetMeUser.getFacebookId() != null) 
+						users.add(meetMeUser);		
+				}
 
 				return users;
 			} catch (Exception e) {
@@ -134,6 +137,9 @@ public class MeetMeClient
 	
 	private static User convertToUser(Map<String, Object> friendMap)
 	{				
+		if((new Date((Long)friendMap.get("to"))).before(new Date()))
+			return new User();
+		
 		User user = new User();
 		user.setActive((Boolean)friendMap.get("active"));
 		user.setComment((String)friendMap.get("comment"));
