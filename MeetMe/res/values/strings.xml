@@ -33,6 +33,7 @@
     <!--  friend list  -->
     <string name="title_action_bar_friends">Friend list </string>
     <string name="title_activity_friend_list">Friend list</string>
+    <string name="no_active_friends_placeholder">No active friends.</string>
     
     <string name="available_already">Available now for</string>
     <string name="available_in">Available in</string>

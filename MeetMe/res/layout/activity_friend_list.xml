@@ -13,5 +13,13 @@
         android:id="@+id/friendListView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"/>
+    
+    <TextView 
+        android:id="@+id/noFriendsActiveText"        
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/no_active_friends_placeholder"       
+         />
 
 </RelativeLayout>

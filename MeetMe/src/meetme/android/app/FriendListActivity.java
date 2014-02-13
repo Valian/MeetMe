@@ -1,8 +1,6 @@
 package meetme.android.app;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import meetme.android.app.MeetMeCacheService.FriendListReceivedListener;
@@ -17,10 +15,10 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,6 +28,7 @@ public class FriendListActivity extends ActionBarActivity {
 
 
 	private ListView friendListView;
+	private View noActiveFriendsLabel;
 	
 	private SplashScreenFragment splashScreen = new SplashScreenFragment();
 	private boolean loadingDisplay = false;
@@ -60,7 +59,8 @@ public class FriendListActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_friend_list);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+		
+		noActiveFriendsLabel = findViewById(R.id.noFriendsActiveText);
 
 		Intent intent = new Intent(this, MeetMeCacheService.class);
         bindService(intent, cacheServiceConnection, Context.BIND_AUTO_CREATE);
@@ -106,9 +106,14 @@ public class FriendListActivity extends ActionBarActivity {
 	
 	private void displayFriendList(ArrayList<PersonViewModel> friendList)
 	{
-		FriendLazyAdapter adapter = new FriendLazyAdapter(FriendListActivity.this, friendList);
-		friendListView = (ListView)findViewById(R.id.friendListView);
-		friendListView.setAdapter(adapter);
+		if(friendList.size() > 0)
+		{
+			noActiveFriendsLabel.setVisibility(View.INVISIBLE);
+			
+			FriendLazyAdapter adapter = new FriendLazyAdapter(FriendListActivity.this, friendList);
+			friendListView = (ListView)findViewById(R.id.friendListView);
+			friendListView.setAdapter(adapter);
+		}		
 	}
 	
 	@Override
@@ -172,8 +177,8 @@ public class FriendListActivity extends ActionBarActivity {
 	}
 	
 	private void openMap() {
-		// TODO Auto-generated method stub
-		
+		Intent intent = new Intent(FriendListActivity.this, LocationViewActivity.class);
+		startActivity(intent);		
 	}
 	
 	@Override
