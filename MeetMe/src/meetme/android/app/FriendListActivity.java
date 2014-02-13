@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.facebook.model.GraphUser;
 
@@ -79,19 +80,22 @@ public class FriendListActivity extends ActionBarActivity {
 		{
 			loadingDisplay = true;
 			getSupportFragmentManager().beginTransaction()
-	        .add(android.R.id.content, splashScreen).commit();
+	        .add(android.R.id.content, splashScreen).commitAllowingStateLoss();
 		}
 		
 		cacheService.getFriendList(new FriendListReceivedListener() {
 
 			@Override
 			public void call(ArrayList<User> meetMeUsers, List<GraphUser> facebookUsers) {
-				displayFriendList(getPersonViewModels(facebookUsers, meetMeUsers));
+				if(meetMeUsers != null) 
+					displayFriendList(getPersonViewModels(facebookUsers, meetMeUsers));
+				else 
+					Toast.makeText(getApplicationContext(), "Connection error", Toast.LENGTH_LONG).show();
 				
 				if(loadingDisplay)
 				{
 					getSupportFragmentManager().beginTransaction()
-			        .remove(splashScreen).commit();
+			        .remove(splashScreen).commitAllowingStateLoss();
 					loadingDisplay = false;
 				}
 			}
