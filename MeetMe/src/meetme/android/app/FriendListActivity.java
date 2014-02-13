@@ -17,6 +17,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -135,19 +136,22 @@ public class FriendListActivity extends ActionBarActivity {
 	
 	public ArrayList<PersonViewModel> getPersonViewModels(List<GraphUser> facebookUsers, final List<User> meetMeUsers)		
 	{
-
 		ArrayList<PersonViewModel> result = new ArrayList<PersonViewModel>();
 		
 		for(User meetMeUser : meetMeUsers)
 		{
-			PersonViewModel person = meetMeUserToPersonViewModel(meetMeUser, facebookUsers);
-	     	if(person != null)
-	     	{
-	     		Log.i("FriendListActivity", "meetMeUser id matches person: "+person.name);
-	     		result.add(person);   
-	     	}
-	     	else
-	     		Log.w("FriendListActivity", "meetMeUser id matches no facebook id");
+			//TODO to kiedys bedzie w serwisie i nie bedziemy dostawac nieaktualnych statusow
+			if(meetMeUser.getTo().after(new Date()))
+			{
+				PersonViewModel person = meetMeUserToPersonViewModel(meetMeUser, facebookUsers);
+		     	if(person != null)
+		     	{
+		     		Log.i("FriendListActivity", "meetMeUser id matches person: "+person.name);
+		     		result.add(person);   
+		     	}
+		     	else
+		     		Log.w("FriendListActivity", "meetMeUser id matches no facebook id");
+			}
 		}
      	
 		return result;     	

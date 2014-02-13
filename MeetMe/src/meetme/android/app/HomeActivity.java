@@ -24,7 +24,7 @@ public class HomeActivity extends FragmentActivity {
 		{
 			Log.i("HomeActivity", "logged in, redirecting to MainMenuActivity...");
 			openMainMenu();
-					}
+		}
 		else
 		{
 

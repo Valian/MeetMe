@@ -8,6 +8,8 @@ import java.util.Map;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import android.util.Log;
+
 
 public class MeetMeClient
 {
@@ -51,6 +53,16 @@ public class MeetMeClient
 		userDTO.attributes.put("latitude", user.getLatitude());
 		userDTO.attributes.put("from", user.getFrom());
 		userDTO.attributes.put("to", user.getTo());			
+		
+		Log.i("MeetMeClient", 
+				"sending status: " +
+						" comment:" + user.getComment() +
+		" longitude:" + user.getLongitude() +
+		" latitude:" + user.getLatitude() + 
+		" from:" + user.getFrom() +
+		" to:" + user.getTo() +
+		" token:" + token
+				);
 		
 		Map<String, Object> map = rest.postForObject(SERVICE_URL + UPDATE_STATUS_ACTION + "?token=" + token, userDTO, HashMap.class);
 		

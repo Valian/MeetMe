@@ -191,18 +191,30 @@ public class StatusChangeActivity extends ActionBarActivity {
 		
 		Calendar calendar = Calendar.getInstance();
 		
-		if(selectedDay == null)
-			Log.i("dzien", "nuuuuuul");
-		else
-			Log.i("dzien", selectedDay.toString());
-		calendar.setTime(selectedDay);
-		calendar.add(Calendar.HOUR_OF_DAY, startTime.GetHours());
-		calendar.add(Calendar.MINUTE, startTime.GetMinutes());
-		user.setFrom(calendar.getTime());
+		Date timeFrom = selectedDay;
+		timeFrom.setHours(startTime.GetHours());
+		timeFrom.setMinutes(startTime.GetMinutes());
+		
+		calendar.setTime(timeFrom);
 		
 		calendar.add(Calendar.HOUR_OF_DAY, howLong.GetHours());
 		calendar.add(Calendar.MINUTE, howLong.GetMinutes());
-		user.setTo(calendar.getTime());
+		
+		Date timeTo = calendar.getTime();
+		
+		Log.i("selected day", selectedDay.toString());
+		Log.i("startTime", String.valueOf(startTime.GetHours()) + "h " + String.valueOf(startTime.GetMinutes()));
+		Log.i("howLong", String.valueOf(howLong.GetHours()) + "h " +String.valueOf(howLong.GetMinutes()));
+		
+		/*calendar.add(Calendar.HOUR_OF_DAY, startTime.GetHours());
+		calendar.add(Calendar.MINUTE, startTime.GetMinutes());*/
+		user.setFrom(timeFrom);
+		
+		/*calendar.add(Calendar.HOUR_OF_DAY, howLong.GetHours());
+		calendar.add(Calendar.MINUTE, howLong.GetMinutes());*/	
+		user.setTo(timeTo);
+		
+		Log.i("StatusChangeActivity", "saving new status: from: " + user.getFrom() + ", to: "+ user.getTo());
 		
 		user.setLatitude(location.getLatitude());
 		user.setLongitude(location.getLongitude());

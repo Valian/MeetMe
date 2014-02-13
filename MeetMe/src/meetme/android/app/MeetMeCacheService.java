@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import meetme.android.app.adapters.PersonViewModel;
+import meetme.android.core.ImageLoader;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -21,6 +22,7 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.View;
 
 public class MeetMeCacheService extends Service{
 
@@ -40,14 +42,80 @@ public class MeetMeCacheService extends Service{
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+    	
+    	return super.onStartCommand(intent,flags,startId);
+
+    }
+    
+    @Override
     public IBinder onBind(Intent intent) {
     	//Log.i("cacheservice", "onBind");
     	
         return meetMeBinder;
     }
     
-    /**************** Status calls *****************/
-    private Boolean statusRequestSent = false;
+    /**************** Facebook profile calls ****************/
+    private boolean facebookProfileRequestSent = false;
+    private ArrayList<FacebookProfileReceivedListener> facebookProfileCallbacks = new ArrayList<FacebookProfileReceivedListener>();
+    private GraphUser facebookProfile = null;
+    
+    public interface FacebookProfileReceivedListener
+    {
+    	public void call(GraphUser user);
+    }
+    
+    public GraphUser getLastFacebookProfile()    {
+    	return facebookProfile;
+    }
+    
+    public void getFacebookProfile()     {
+    	getFacebookProfile(null);
+    }
+    
+    public void getFacebookProfile(FacebookProfileReceivedListener callback)
+    {
+    	facebookProfileCallbacks.add(callback);
+    	
+    	if(!facebookProfileRequestSent)
+    	{
+    		facebookProfileRequestSent = true;
+	    	Session fbSession = Session.getActiveSession();
+			
+	    	if(fbSession == null || !fbSession.isOpened())
+    		{
+    			Log.i("MeetMeCacheService", "inactive facebook session");
+    			return;		
+    		}
+			
+			Request request = Request.newMeRequest(fbSession, new Request.GraphUserCallback() {
+				
+				@Override
+				public void onCompleted(GraphUser result, Response response) {
+					if(result == null)
+						Log.i("MeetMeCacheService", "received null facebook user");
+					else
+					{
+						facebookProfileRequestSent = false;
+						facebookProfile = result;
+				    	for(FacebookProfileReceivedListener callback : facebookProfileCallbacks)
+				    	{
+				    		if(callback != null) callback.call(result);
+				    	}
+				    	
+				    	facebookProfileCallbacks.clear();	
+					}
+				}
+			});
+			
+			request.executeAsync();
+    	}
+    }
+    
+    
+    /**************** Meetme Status calls *****************/
+    private boolean meetmeStatusRequestSent = false;
     private ArrayList<StatusReceivedListener> statusCallbacks = new ArrayList<StatusReceivedListener>();
     private User userStatus = null;
     private boolean userStatusCached = false;
@@ -67,13 +135,17 @@ public class MeetMeCacheService extends Service{
     	return new StatusResult(userStatus, userStatusCached);
     }
     
+    public void getStatus() {
+    	getStatus(null);
+    }
+
     public void getStatus(StatusReceivedListener callback) {
     	
     	statusCallbacks.add(callback);
     	
-    	if(!statusRequestSent)
+    	if(!meetmeStatusRequestSent)
     	{
-    		statusRequestSent = true;
+    		meetmeStatusRequestSent = true;
     		if(Session.getActiveSession() == null || !Session.getActiveSession().isOpened())
     		{
     			Log.i("MeetMeCacheService", "inactive facebook session");
@@ -85,7 +157,7 @@ public class MeetMeCacheService extends Service{
 	    	new GetStatusTask() {
 				@Override
 			    protected void onPostExecute(User result) {   
-					statusRequestSent = false;
+					meetmeStatusRequestSent = false;
 					userStatus = result;
 					userStatusCached = true;
 			    	for(StatusReceivedListener callback : statusCallbacks)
@@ -123,6 +195,10 @@ public class MeetMeCacheService extends Service{
     public List<GraphUser> getLastFacebookUsers()
     {
     	return facebookUsers;
+    }
+    
+    public void getFriendList() {
+    	getFriendList(null);
     }
     
     public void getFriendList(FriendListReceivedListener callback) {

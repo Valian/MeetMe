@@ -1,5 +1,6 @@
 package meetme.android.app;
 
+import meetme.android.app.MeetMeCacheService.FacebookProfileReceivedListener;
 import meetme.android.app.MeetMeCacheService.MeetMeCacheBinder;
 import meetme.android.app.MeetMeCacheService.StatusReceivedListener;
 import meetme.android.app.MeetMeCacheService.StatusResult;
@@ -77,13 +78,6 @@ public class MainMenuActivity extends ActionBarActivity {
 			}
 		});
 		
-		/*friendListButton = (Button) findViewById(R.id.friendListButton);	
-		friendListButton.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v){
-				openFriends();
-			}
-		});*/
 		
 		Intent intent = new Intent(this, MeetMeCacheService.class);
         bindService(intent, cacheServiceConnection, Context.BIND_AUTO_CREATE);
@@ -114,7 +108,7 @@ public class MainMenuActivity extends ActionBarActivity {
         	cacheService = binder.getService();
         	bound = true;
         	
-        	getStatus();
+        	updateDisplay();
         }
 
         @Override
@@ -124,7 +118,7 @@ public class MainMenuActivity extends ActionBarActivity {
         }
     };
 
-    private void getStatus()
+    private void updateDisplay()
     {
 
     	StatusResult result = cacheService.getLastStatus();
@@ -158,12 +152,14 @@ public class MainMenuActivity extends ActionBarActivity {
 	        .commit();
     	}
     	
+    	
     	cacheService.getStatus(new StatusReceivedListener() {
 
 			@Override
 			public void call(User user) {
 				
-
+				Log.i("MainMenuActivity", "XXXXreceived status");
+				
 				if(user != null)
 				{
 					Log.i("status", 
@@ -185,6 +181,10 @@ public class MainMenuActivity extends ActionBarActivity {
 			}
     		
     	});
+    	
+    	cacheService.getFacebookProfile();
+    	cacheService.getFriendList();
+		
     }
     
     private void updateDisplay(User user)
@@ -204,42 +204,54 @@ public class MainMenuActivity extends ActionBarActivity {
     	}
     }
     
-	private void showUserInfo(final User user) {
+	private void showUserInfo(final User meetMeUser) {
+		
+		final GraphUser fbUser = cacheService.getLastFacebookProfile();
+		
+		if(fbUser != null) 
+		{
+			Log.i("MainMenuActivity", "using cached facebook user");
+			showUserInfo(meetMeUser, fbUser);
+		}
+		else
+		{
+			cacheService.getFacebookProfile(new FacebookProfileReceivedListener(){
+				@Override
+				public void call(GraphUser user) {
+					Log.i("MainMenuActivity", "received facebook profile from MeetMeCacheService");
+					if(user == null)
+						Log.i("MainMenuActivity", "null fb user");
+					showUserInfo(meetMeUser, user);					
+				}
+				
+			});			
+		}
+		
+	}
+
+	private void showUserInfo(final User user, GraphUser fbUser) {
 		final TextView name = (TextView)findViewById(R.id.name);	
 		final TextView availability = (TextView)findViewById(R.id.availabilityInfo);	
 		final TextView comment = (TextView)findViewById(R.id.comment);	
 		final ImageView thumbnail = (ImageView)findViewById(R.id.thumbnail);	
 		
-		if(name == null || availability == null || comment == null || thumbnail == null)
-			return;
+		//if(name == null || availability == null || comment == null || thumbnail == null) return;
 		
-		Session fbSession = Session.getActiveSession();
+		if(fbUser == null)
+			Log.i("MainMenuActivity", "showUserInfo null fb user");
 		
-		if(fbSession == null) return;
-		
-		Request request = Request.newMeRequest(fbSession, new Request.GraphUserCallback() {
+		PersonViewModel vm = new PersonViewModel(user, fbUser, getString(R.string.available_in),  getString(R.string.available_for), getString(R.string.available_already));
+		name.setText(vm.name);
+		comment.setText(vm.comment);
+		availability.setText(vm.availabilityInfo);					
 			
-			@Override
-			public void onCompleted(GraphUser fbUser, Response response) {
-				
-				if(user != null && fbUser != null)
-				{
-					PersonViewModel vm = new PersonViewModel(user, fbUser, getString(R.string.available_in),  getString(R.string.available_for), getString(R.string.available_already));
-					name.setText(vm.name);
-					comment.setText(vm.comment);
-					availability.setText(vm.availabilityInfo);					
-					
-					ImageLoader imageLoader = new ImageLoader(getBaseContext());
-					findViewById(R.id.status).setVisibility(View.VISIBLE);
-					
-					imageLoader.DisplayImage(vm.thumbnailURL, thumbnail);
-				}				
-			}
-		});
+		ImageLoader imageLoader = new ImageLoader(getBaseContext());
+		findViewById(R.id.status).setVisibility(View.VISIBLE);
+			
+		imageLoader.DisplayImage(vm.thumbnailURL, thumbnail);
 		
-		request.executeAsync();
 	}
-
+	
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -247,9 +259,7 @@ public class MainMenuActivity extends ActionBarActivity {
 		Session session = Session.getActiveSession();
 		if(session == null || !session.isOpened()) {
 			backToHome();
-			return;
 		}
-		
 		
 	}
 	
@@ -312,8 +322,8 @@ public class MainMenuActivity extends ActionBarActivity {
 		startActivity(intent);
 	}
 	
-	@Override
+	/*@Override
 	protected void onSaveInstanceState(Bundle outState) {
 	    
-	}	
+	}*/	
 }
