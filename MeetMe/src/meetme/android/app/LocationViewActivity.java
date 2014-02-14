@@ -39,13 +39,15 @@ GooglePlayServicesClient.ConnectionCallbacks,
 GooglePlayServicesClient.OnConnectionFailedListener
 {
 
+	private boolean googlePlayConnected = false;
 	private GooglePlayConnector googlePlayConnector;
 	
 	
 	 /*Google play services handler */
 	 @Override
 	    public void onConnected(Bundle dataBundle) {
-	        
+		 	googlePlayConnected = true;
+	        if(cacheServiceBound) updateDisplay();
 	    }
 	 
 	  /*Google play services handler */
@@ -81,7 +83,7 @@ GooglePlayServicesClient.OnConnectionFailedListener
     }
 
 	
-	private Boolean bound;
+	private Boolean cacheServiceBound;
 	private MeetMeCacheService cacheService;
 	private ServiceConnection cacheServiceConnection = new ServiceConnection() {
 
@@ -91,48 +93,63 @@ GooglePlayServicesClient.OnConnectionFailedListener
         	Log.i("LocationViewActivity", "connected to MeetMeCacheService");
         	MeetMeCacheBinder binder = (MeetMeCacheBinder) service;
         	cacheService = binder.getService();
-        	bound = true;
+        	cacheServiceBound = true;
         	
-        	updateDisplay();
+        	if(googlePlayConnected)
+        		updateDisplay();
         }
 
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
         	Log.w("LocationViewActivity", "disconnected from MeetMeCacheService");
-        	bound = false;
+        	cacheServiceBound = false;
         }
     };
     
     private void updateDisplay()
     {
+    	ArrayList<User> meetMeUsers = cacheService.getLastMeetMeFriendList();
+    	List<GraphUser> facebookUsers = cacheService.getLastFacebookUsers();
+    	
+    	if(meetMeUsers != null && facebookUsers != null)
+    	{
+    		displayMarkers(meetMeUsers, facebookUsers);
+    	}
+    	
+    			
     	cacheService.getFriendList(new FriendListReceivedListener() {
 
 			@Override
-			public void call(ArrayList<User> meetMeUsers, List<GraphUser> facebookUsers) {
-				ArrayList<PersonMapMarker> friendList = getPersonMapMarkers(facebookUsers, meetMeUsers);
-				
-				GoogleMap map = ((MapFragment) LocationViewActivity.this.getFragmentManager().findFragmentById(R.id.locationMap)).getMap();	     
-				
-				Location location = googlePlayConnector.getLastLocation();
-		        LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-
-		        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13));
-				
-		        map.addMarker(new MarkerOptions()
-                .position(currentLocation));
-		        
-				for(PersonMapMarker person : friendList)
-				{
-
-			        map.addMarker(new MarkerOptions()
-			                .title(person.name)
-			                .snippet(person.name)
-			                .position(person.location));
-			        
-				}
+			public void call(ArrayList<User> meetMeUsers, List<GraphUser> facebookUsers) {	
+				displayMarkers(meetMeUsers, facebookUsers);
 			}
     		
     	});
+    }
+    
+    private void displayMarkers(ArrayList<User> meetMeUsers, List<GraphUser> facebookUsers)
+    {
+    	ArrayList<PersonMapMarker> friendList = getPersonMapMarkers(facebookUsers, meetMeUsers);
+		
+		GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.locationMap)).getMap();	     
+		
+		Location location = googlePlayConnector.getLastLocation();
+        LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13));
+		
+        map.addMarker(new MarkerOptions()
+        .position(currentLocation));
+        
+		for(PersonMapMarker person : friendList)
+		{
+
+	        map.addMarker(new MarkerOptions()
+	                .title(person.name)
+	                .snippet(person.name)
+	                .position(person.location));
+	        
+		}
     }
     
     

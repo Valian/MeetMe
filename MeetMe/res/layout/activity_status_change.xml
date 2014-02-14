@@ -1,94 +1,100 @@
-<LinearLayout 
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" 
-    style="@style/BodyLinearLayout"
-    tools:context=".StatusChangeActivity" >
+	xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".StatusChangeActivity">
+    
 
-    <TextView
-        style="@style/HeaderStrip"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:text="@string/want_to_meet" />
-    
-    <LinearLayout style="@style/VerticalLayout">
-        
-	    <TextView 
-	    android:text="@string/want_to_meet_comment"
-		android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    />
-    	
-	    <EditText
-	    android:id="@+id/meeting_comment"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:textSize="@dimen/main_menu_text"
-	    android:inputType="text"
-	    android:hint="@string/comment"
-		android:textColor="@color/text"
-        />
+	<LinearLayout style="@style/BodyLinearLayout">
+	
+	    <TextView
+	        style="@style/HeaderStrip"
+	        android:layout_width="match_parent"
+	        android:layout_marginBottom="@dimen/activity_vertical_margin"
+	        android:text="@string/want_to_meet" />
 	    
-	    <LinearLayout android:orientation="horizontal"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content">
-	        <TextView 
-		    android:text="@string/when"
-			style="@style/InlineFormTextView"  />
+	    <LinearLayout style="@style/VerticalLayout">
 	        
-	        <Spinner
-	        android:id="@+id/dateSpinner"
-	        style="@style/DefaultSpinnerStyle" />
-	        
-	  	</LinearLayout>
-    
+		    <TextView 
+		    android:text="@string/want_to_meet_comment"
+			android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    />
+	    	
+		    <EditText
+		    android:id="@+id/meeting_comment"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:textSize="@dimen/main_menu_text"
+		    android:inputType="text"
+		    android:hint="@string/comment"
+			android:textColor="@color/text"
+	        />
+		    
+		    <LinearLayout android:orientation="horizontal"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content">
+		        <TextView 
+			    android:text="@string/when"
+				style="@style/InlineFormTextView"  />
+		        
+		        <Spinner
+		        android:id="@+id/dateSpinner"
+		        style="@style/DefaultSpinnerStyle" />
+		        
+		  	</LinearLayout>
 	    
-	    <LinearLayout android:orientation="horizontal"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content">
-	        <TextView 
-		    android:text="@string/from"
-			style="@style/InlineFormTextView" />
-	        
-	        <Button android:id="@+id/timeFromButton"
-	        style="@style/InlineButton"  />
-	        
-	  	</LinearLayout>
-	  	
-	    <LinearLayout android:orientation="horizontal"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content">
-	        <TextView 
-		    android:text="@string/how_long"
-			style="@style/InlineFormTextView" />
-	                
-	        <Button android:id="@+id/howLongButton"
-	        style="@style/InlineButton" />
-	        
-	  	</LinearLayout>
-	  	
+		    
+		    <LinearLayout android:orientation="horizontal"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content">
+		        <TextView 
+			    android:text="@string/from"
+				style="@style/InlineFormTextView" />
+		        
+		        <Button android:id="@+id/timeFromButton"
+		        style="@style/InlineButton"  />
+		        
+		  	</LinearLayout>
+		  	
+		    <LinearLayout android:orientation="horizontal"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content">
+		        <TextView 
+			    android:text="@string/how_long"
+				style="@style/InlineFormTextView" />
+		                
+		        <Button android:id="@+id/howLongButton"
+		        style="@style/InlineButton" />
+		        
+		  	</LinearLayout>
+		  	
+		    
+		    
+		    
+		    <View style="@style/Divider"/>
+			
+		    <Button android:id="@+id/saveStatus"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:text="@string/save_status"
+		    android:layout_gravity="center_horizontal"
+		    style="@style/BigButton"
+		    />
+		    
+		    <ProgressBar
+	        android:id="@+id/progressBar"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:visibility="invisible"
+	        />
+		    
+	    </LinearLayout>
+	
 	    
 	    
-	    
-	    <View style="@style/Divider"/>
-		
-	    <Button android:id="@+id/saveStatus"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:text="@string/save_status"
-	    android:layout_gravity="center_horizontal"
-	    style="@style/BigButton"
-	    />
-	    
-	    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:visibility="invisible"
-        />
-	    
-    </LinearLayout>
+	</LinearLayout>
 
-    
-    
-</LinearLayout>
+</ScrollView>
