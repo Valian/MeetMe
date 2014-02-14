@@ -1,5 +1,6 @@
 package meetme.android.app;
 
+import meetme.android.app.MeetMeCacheService.FacebookProfileReceivedListener;
 import meetme.android.app.MeetMeCacheService.MeetMeCacheBinder;
 import meetme.android.app.MeetMeCacheService.StatusReceivedListener;
 import meetme.android.app.MeetMeCacheService.StatusResult;
@@ -187,7 +188,7 @@ public class MainMenuActivity extends ActionBarActivity {
     		
     	if(user.getFacebookId() != null)
     	{	
-    		statusSetButton.setVisibility(View.INVISIBLE);
+    		statusSetButton.setVisibility(View.GONE);
     		statusCancelButton.setVisibility(View.VISIBLE);    		
 
     		showUserInfo(user);
@@ -195,24 +196,41 @@ public class MainMenuActivity extends ActionBarActivity {
     	else
     	{
     		statusSetButton.setVisibility(View.VISIBLE);
-    		statusCancelButton.setVisibility(View.INVISIBLE);
-    		findViewById(R.id.status).setVisibility(View.INVISIBLE);
+    		statusCancelButton.setVisibility(View.GONE);
+    		findViewById(R.id.status).setVisibility(View.GONE);
     	}
     }
     
-	private void showUserInfo(final User user) {
-		final TextView name = (TextView)findViewById(R.id.name);	
-		final TextView availability = (TextView)findViewById(R.id.availabilityInfo);	
-		final TextView comment = (TextView)findViewById(R.id.comment);	
-		final ImageView thumbnail = (ImageView)findViewById(R.id.thumbnail);	
-		
-		if(name == null || availability == null || comment == null || thumbnail == null)
-			return;
-		
+	private void showUserInfo(final User user) 
+	{
+
 		Session fbSession = Session.getActiveSession();
 		
 		if(fbSession == null) return;
 		
+		GraphUser fbUser = cacheService.getLastFacebookProfile();
+		
+		if(fbUser != null)
+		{
+			showUserInfo(user, fbUser);
+		}
+		else
+		{
+			cacheService.getFacebookProfile(new FacebookProfileReceivedListener(){
+
+				@Override
+				public void call(GraphUser fbUser) {
+					if(user != null && fbUser != null)
+					{
+						showUserInfo(user, fbUser);
+					}
+					else
+						Toast.makeText(getApplicationContext(), "Connection error", Toast.LENGTH_LONG).show();
+				}
+				
+			});
+			
+			
 		Request request = Request.newMeRequest(fbSession, new Request.GraphUserCallback() {
 			
 			@Override
@@ -220,22 +238,35 @@ public class MainMenuActivity extends ActionBarActivity {
 				
 				if(user != null && fbUser != null)
 				{
-					PersonViewModel vm = new PersonViewModel(user, fbUser, getString(R.string.available_in),  getString(R.string.available_for), getString(R.string.available_already));
-					name.setText(vm.name);
-					comment.setText(vm.comment);
-					availability.setText(vm.availabilityInfo);					
 					
-					ImageLoader imageLoader = new ImageLoader(getBaseContext());
-					findViewById(R.id.status).setVisibility(View.VISIBLE);
-					
-					imageLoader.DisplayImage(vm.thumbnailURL, thumbnail);
 				}				
 			}
 		});
 		
 		request.executeAsync();
+		}
 	}
 
+	
+	private void showUserInfo(final User meetMeUser, GraphUser fbUser)
+	{
+		final TextView name = (TextView)findViewById(R.id.name);	
+		final TextView availability = (TextView)findViewById(R.id.availabilityInfo);	
+		final TextView comment = (TextView)findViewById(R.id.comment);	
+		final ImageView thumbnail = (ImageView)findViewById(R.id.thumbnail);
+		
+		PersonViewModel vm = new PersonViewModel(meetMeUser, fbUser, getString(R.string.available_in),  getString(R.string.available_for), getString(R.string.available_already));
+		name.setText(vm.name);
+		comment.setText(vm.comment);
+		availability.setText(vm.availabilityInfo);					
+		
+		ImageLoader imageLoader = new ImageLoader(getBaseContext());
+		findViewById(R.id.status).setVisibility(View.VISIBLE);
+		
+		imageLoader.DisplayImage(vm.thumbnailURL, thumbnail);
+	}
+	
+	
 	@Override
 	protected void onStart() {
 		super.onStart();
